@@ -1,0 +1,30 @@
+{
+  "name": "creative-studio",
+  "version": "1.0.0",
+  "description": "Working on",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildcss": "npx tailwindcss -i ./flaskr/static/css/input.css -o ./flaskr/static/css/output.css --watch",
+    "flask": "flask run",
+    "bs": "npx browser-sync start --config bs-config.js",
+    "start": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frost-rvl/creative-studio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frost-rvl/creative-studio/issues"
+  },
+  "homepage": "https://github.com/frost-rvl/creative-studio#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "browser-sync": "^3.0.4",
+    "concurrently": "^9.2.1",
+    "tailwindcss": "^4.1.18"
+  }
+}
