@@ -7,8 +7,8 @@ A collection of projects build in python
 Install required packages with nix package manager and npm
 
 ```bash
-  npm install
   nix develop
+  npm install
 ```
 
 ## Run 
