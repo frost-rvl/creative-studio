@@ -20,8 +20,12 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = [
-            pkgs.python312
-            pkgs.python312Packages.flask
+            pkgs.nodejs
+
+            # Python packages
+            pkgs.python313
+            pkgs.python313Packages.flask
+            pkgs.python313Packages.python-dotenv
           ];
         };
       }
