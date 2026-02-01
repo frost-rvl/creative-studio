@@ -19,7 +19,8 @@ module.exports = {
   "files": [
     "flaskr/templates/**/*.html",
     "flaskr/static/css/output.css",
-    "flaskr/static/js/*.js"
+    "flaskr/static/js/*.js",
+    "flaskr/**/.py"
   ],
   "watchEvents": [
     "change"
