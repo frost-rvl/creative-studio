@@ -8,7 +8,7 @@
     "buildcss": "npx tailwindcss -i ./flaskr/static/css/input.css -o ./flaskr/static/css/output.css --watch",
     "flask": "flask run",
     "bs": "npx browser-sync start --config bs-config.js",
-    "start": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\""
+    "dev": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\""
   },
   "repository": {
     "type": "git",

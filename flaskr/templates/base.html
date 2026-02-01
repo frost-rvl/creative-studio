@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	{% if title %}
+    	    <title>{{ title }} - Creative Studio</title>
+    	{% else %}
+    	    <title>Welcome to Creative Studio</title>
+    	{% endif %}
+        <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
+    </head>
+    <style>
+
+    </style>
+    <body>
+        <nav class="sticky top-0 z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-32 backdrop-blur text-slate-800 text-sm">
+            <a href="#">
+                <span class="text-xl font-semibold text-pink-600">creative studio</span>
+            </a>
+
+
+            <div class="hidden md:flex items-center gap-8 transition duration-500">
+                <a href="#" class="hover:text-slate-500 transition">Home</a>
+                <a href="#" class="hover:text-slate-500 transition">Explore</a>
+                <a href="#" class="hover:text-slate-500 transition">Gallery</a>
+            </div>
+
+            <div class="hidden md:block space-x-3">
+                <button class="px-6 py-2 bg-pink-600 hover:bg-pink-700 transition text-white rounded-md">Get started</button>
+                <button class="hover:bg-slate-100 transition px-6 py-2 border border-pink-600 rounded-md">Login</button>
+            </div>
+
+            <button id="open-menu" class="md:hidden active:scale-90 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+            </button>
+        </nav>
+
+        <div id="mobile-navLinks" class="fixed inset-0 z-100 bg-white/60 text-slate-800 backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 -translate-x-full">
+            <a href="/">Home</a>
+            <a href="/products">Explore</a>
+            <a href="/stories"></a>
+            <button id="close-menu" class="active:ring-3 active:ring-white aspect-square size-10 p-1 items-center justify-center bg-slate-100 hover:bg-slate-200 transition text-black rounded-md flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        {% block content %}{% endblock %}
+
+        <script>
+            const openMenu = document.getElementById("open-menu");
+            const closeMenu = document.getElementById("close-menu");
+            const navLinks = document.getElementById("mobile-navLinks");
+            const openMenuHandler = () => {
+                navLinks.classList.remove("-translate-x-full")
+                navLinks.classList.add("translate-x-0")
+            }
+
+            const closeMenuHandler = () => {
+                navLinks.classList.remove("translate-x-0")
+                navLinks.classList.add("-translate-x-full")
+            }
+
+            openMenu.addEventListener("click", openMenuHandler);
+            closeMenu.addEventListener("click", closeMenuHandler);
+        </script>
+    </body>
+</html>
