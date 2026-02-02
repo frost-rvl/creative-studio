@@ -25,6 +25,7 @@
             # Python packages
             pkgs.python313
             pkgs.python313Packages.python-dotenv
+            pkgs.python313Packages.email-validator
             pkgs.python313Packages.flask
             pkgs.python313Packages.flask-wtf
             pkgs.python313Packages.flask-sqlalchemy

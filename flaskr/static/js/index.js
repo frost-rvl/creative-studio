@@ -1,9 +1,10 @@
 import { handleNavbar, handleFlashButton } from "./base.js";
-import { handleLoginPasswordVisibility } from "./auth.js";
+import { handleLoginPasswordVisibility, handleRegisterPasswordVisibility } from "./auth.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("DOM loaded");
   handleLoginPasswordVisibility();
+  handleRegisterPasswordVisibility();
   handleNavbar();
   handleFlashButton();
+  console.log("DOM loaded");
 });
