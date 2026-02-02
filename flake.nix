@@ -29,6 +29,7 @@
             pkgs.python313Packages.flask-wtf
             pkgs.python313Packages.flask-sqlalchemy
             pkgs.python313Packages.flask-migrate
+            pkgs.python313Packages.flask-login
           ];
         };
       }
