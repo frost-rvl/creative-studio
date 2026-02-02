@@ -27,6 +27,8 @@
             pkgs.python313Packages.python-dotenv
             pkgs.python313Packages.flask
             pkgs.python313Packages.flask-wtf
+            pkgs.python313Packages.flask-sqlalchemy
+            pkgs.python313Packages.flask-migrate
           ];
         };
       }
