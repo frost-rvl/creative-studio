@@ -10,7 +10,7 @@
                 Our platform helps you create beautiful art with simple built-in tools written in with Flask and Python.
             </p>
             <div class="flex items-center gap-4 mt-8">
-                <button class="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white active:scale-95 rounded-lg px-7 h-11">
+                <button onclick="window.location.href = `{{ url_for('auth.register') }}`;" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white active:scale-95 rounded-lg px-7 h-11">
                     Get started
                 </button>
             </div>
@@ -55,7 +55,7 @@
             </div>
         </section>
     </main>
-    <footer class="w-full bg-linear-to-b from-[#f9c4df] to-[#FFFFFF] text-gray-800 mt-32">
+    <footer class="w-full bg-linear-to-b from-[#ffbfc2] to-[#FFFFFF] text-gray-800 mt-32">
         <div class="max-w-7xl mx-auto px-6 py-16 flex flex-col items-center">
             <div class="flex items-center space-x-3 mb-6">
                 <!--<img alt="" class="h-11" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/dummyLogo/prebuiltuiLogoSquareShapeDark.svg" />-->
