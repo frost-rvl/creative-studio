@@ -24,9 +24,7 @@
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('main.index') }}" class="hover:text-slate-500 transition">Home</a>
                 {% endif %}
-                {% if current_user.is_anonymous %}
-                    <a href="#" class="hover:text-slate-500 transition">Explore</a>
-                {% endif %}
+                <a href="#" class="hover:text-slate-500 transition">Explore</a>
                 {% if current_user.is_authenticated %}
                     <a href="#" class="hover:text-slate-500 transition">Modules</a>
                     <a href="#" class="hover:text-slate-500 transition">Gallery</a>
@@ -63,9 +61,7 @@
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('main.index') }}">Home</a>
             {% endif %}
-            {% if current_user.is_anonymous %}
-                <a href="#">Explore</a>
-            {% endif %}
+            <a href="#">Explore</a>
             {% if current_user.is_authenticated %}
                 <a href="#">Modules</a>
                 <a href="#">Gallery</a>
