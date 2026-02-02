@@ -9,26 +9,26 @@
     	    <title>Welcome to Creative Studio</title>
     	{% endif %}
         <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
+        <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
     </head>
     <style>
 
     </style>
-    <body>
+    <body class="flex flex-col items-center">
         <nav class="sticky top-0 z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-32 backdrop-blur text-slate-800 text-sm">
-            <a href="#">
-                <span class="text-xl font-semibold text-pink-600">creative studio</span>
+            <a href="{{ url_for('main.index') }}">
+                <span class="text-xl  font-semibold text-pink-600">creative studio</span>
             </a>
 
-
             <div class="hidden md:flex items-center gap-8 transition duration-500">
-                <a href="#" class="hover:text-slate-500 transition">Home</a>
+                <a href="{{ url_for('main.index') }}" class="hover:text-slate-500 transition">Home</a>
                 <a href="#" class="hover:text-slate-500 transition">Explore</a>
                 <a href="#" class="hover:text-slate-500 transition">Gallery</a>
             </div>
 
             <div class="hidden md:block space-x-3">
                 <button class="px-6 py-2 bg-pink-600 hover:bg-pink-700 transition text-white rounded-md">Get started</button>
-                <button class="hover:bg-slate-100 transition px-6 py-2 border border-pink-600 rounded-md">Login</button>
+                <button class="hover:bg-slate-50 transition px-6 py-2 border border-pink-600 rounded-md" onclick="window.location.href = '{{ url_for('auth.login') }}'; ">Login</button>
             </div>
 
             <button id="open-menu" class="md:hidden active:scale-90 transition">
@@ -45,24 +45,29 @@
             </button>
         </div>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div id="flash-element" class="flex items-center justify-between max-w-xl w-full bg-blue-600/70 text-white px-3 h-10 rounded-sm my-4">
+                    <div class="flex items-center">
+                        <svg class="cursor-pointer" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 14.167q.354 0 .593-.24.24-.24.24-.594a.8.8 0 0 0-.24-.593.8.8 0 0 0-.594-.24.8.8 0 0 0-.593.24.8.8 0 0 0-.24.593q0 .354.24.594t.593.24m-.834-3.334h1.667v-5H9.166zm.833 7.5a8.1 8.1 0 0 1-3.25-.656 8.4 8.4 0 0 1-2.645-1.781 8.4 8.4 0 0 1-1.782-2.646A8.1 8.1 0 0 1 1.666 10q0-1.73.656-3.25a8.4 8.4 0 0 1 1.782-2.646 8.4 8.4 0 0 1 2.645-1.781A8.1 8.1 0 0 1 10 1.667q1.73 0 3.25.656a8.4 8.4 0 0 1 2.646 1.781 8.4 8.4 0 0 1 1.781 2.646 8.1 8.1 0 0 1 .657 3.25 8.1 8.1 0 0 1-.657 3.25 8.4 8.4 0 0 1-1.78 2.646 8.4 8.4 0 0 1-2.647 1.781 8.1 8.1 0 0 1-3.25.656" fill="currentColor"/>
+                        </svg>
+                        <p class="text-sm ml-2">{{ message }}</p>
+                    </div>
+                    <button id="close-flash" type="button" aria-label="close" class="active:scale-90 transition-all ml-2">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 5 5 15M5 5l10 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
 
         <script>
-            const openMenu = document.getElementById("open-menu");
-            const closeMenu = document.getElementById("close-menu");
-            const navLinks = document.getElementById("mobile-navLinks");
-            const openMenuHandler = () => {
-                navLinks.classList.remove("-translate-x-full")
-                navLinks.classList.add("translate-x-0")
-            }
 
-            const closeMenuHandler = () => {
-                navLinks.classList.remove("translate-x-0")
-                navLinks.classList.add("-translate-x-full")
-            }
-
-            openMenu.addEventListener("click", openMenuHandler);
-            closeMenu.addEventListener("click", closeMenuHandler);
         </script>
     </body>
 </html>
