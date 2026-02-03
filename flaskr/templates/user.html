@@ -6,13 +6,16 @@
             <div class="rounded-t-lg h-64 overflow-hidden bg-gray-300">
                 <img class="object-cover object-top w-full" src='' alt=''>
             </div>
-            <div class="ml-16 relative -mt-24 flex flex-row gap-8 items-center">
+            <div class="px-16 relative -mt-24 flex flex-row gap-8 items-center w-full">
                 <div class="w-64 h-64 border-4 border-gray-100 rounded-full overflow-hidden">
                     <img class="object-cover object-center h-64" src='{{ user.avatar(256) }}' alt='{{ user.username }}' onerror="this.src=`{{ url_for('static', filename='assets/avatar.jpg') }}`">
                 </div>
                 <div>
                     <h2 class="font-semibold text-3xl">{{ user.username }}</h2>
                 </div>
+                {% if user == current_user %}
+                    <button class="hover:bg-slate-50 transition px-6 py-2 border border-red-600 rounded-md ml-auto" onclick="window.location.href = `{{ url_for('main.edit_profile') }}`; ">Edit profile</button>
+                {% endif %}
             </div>
             <div class="ml-20 mt-8">
                 <p class="text-gray-500 {% if not user.about_me %} invisible {% endif %}">{{ user.about_me }}</p>
