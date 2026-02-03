@@ -1,4 +1,6 @@
 from datetime import datetime, timezone
+from hashlib import md5
+from typing import Optional
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -21,6 +23,8 @@ class User(UserMixin, db.Model):
     password_hash: so.Mapped[str] = so.mapped_column(sa.String(256))
     artworks: so.WriteOnlyMapped["Artwork"] = so.relationship(back_populates="author")
 
+    about_me: so.Mapped[str | None] = so.mapped_column(sa.String(140))
+
     @override
     def __repr__(self) -> str:
         return "<User {}>".format(self.username)
@@ -30,6 +34,10 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode("utf-8")).hexdigest()
+        return ""
 
 
 class ArtworkType(db.Model):
