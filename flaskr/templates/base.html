@@ -61,7 +61,7 @@
             </div>
         </nav>
 
-        <div id="mobile-navLinks" class="fixed inset-0 z-100 bg-white/60 text-slate-800 backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 -translate-x-full">
+        <div id="mobile-navLinks" class="fixed inset-0 z-100 bg-white/60 text-slate-800 backdrop-blur flex flex-col items-center justify-center text-lg gap-8 lg:hidden transition-transform duration-300 -translate-x-full">
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('main.index') }}">Home</a>
             {% endif %}
