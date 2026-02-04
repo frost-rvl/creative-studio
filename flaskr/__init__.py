@@ -29,6 +29,10 @@ def create_app(config_class=Config):
 
     app.register_blueprint(auth_bp)
 
+    from flaskr.profile import bp as profile_bp
+
+    app.register_blueprint(profile_bp)
+
     register_db_populate_commands(app)
 
     return app

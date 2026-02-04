@@ -22,9 +22,21 @@ export function handleFlashButton() {
   const closeFlash = document.getElementById("close-flash");
   const flashElement = document.getElementById("flash-element");
 
-  if (!closeFlash || !flashElement) return;
+  if (!flashElement) return;
+
+  requestAnimationFrame(() => {
+    flashElement.classList.remove("opacity-0");
+    flashElement.classList.add("translate-y-32", "opacity-100");
+  })
+
+  if (!closeFlash) return;
 
   closeFlash.addEventListener("click", () => {
-    flashElement.remove();
+    flashElement.classList.remove("translate-y-32", "opacity-100");
+    flashElement.classList.add("opacity-0");
+
+    setTimeout(() => {
+      flashElement.remove();
+    }, 500);
   })
 }
