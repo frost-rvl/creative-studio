@@ -17,11 +17,13 @@
     <body class="flex flex-col items-center justify-center w-full">
         <nav class="sticky top-0 z-50 w-full py-4 backdrop-blur text-slate-800 text-sm px-6 md:px-16 lg:px-24 xl:px-32">
             <div class="flex items-center justify-between w-full max-w-7xl mx-auto">
-                <a href="{{ url_for('main.index') }}">
-                    <span class="text-2xl  font-semibold text-red-600">creative studio</span>
-                </a>
+                <div class="w-48">
+                    <a href="{{ url_for('main.index') }}">
+                        <span class="text-2xl  font-semibold text-red-600">creative studio</span>
+                    </a>
+                </div>
 
-                <div class="hidden lg:flex items-center gap-8 transition duration-500">
+                <div class="hidden lg:flex items-center gap-8 transition duration-500 absolute left-1/2 transform -translate-x-1/2">
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('main.index') }}" class="hover:text-slate-500 transition">Home</a>
                     {% endif %}
@@ -32,30 +34,55 @@
                     {% endif %}
                 </div>
 
-                <div class="hidden lg:flex space-x-3">
+                <div class="hidden lg:flex items-center space-x-3">
                     {% if  current_user.is_anonymous %}
                         <button class="px-6 py-2 bg-red-600 hover:bg-red-700 transition text-white rounded-md" onclick="window.location.href = `{{ url_for('auth.register') }}`; ">Get started</button>
-                        <button class="hover:bg-slate-50 transition px-6 py-2 border border-red-600 rounded-md" onclick="window.location.href = `{{ url_for('auth.login') }}`; ">Login</button>
+                        <button onclick="window.location.href =`{{ url_for('auth.login') }}`"
+                                type="button"
+                                class="group relative flex items-center hover:border-red-400 gap-2 px-4 py-2 rounded-lg border-2 border-gray-200 transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:stroke-red-600 transition-colors text-gray-500">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10 17 15 12 10 7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-red-600 transition-colors">Login</span>
+                        </button>
                     {% endif %}
                     {% if current_user.is_authenticated %}
-                        <button onclick="window.location.href =`{{ url_for('profile.user', username=current_user.username) }}`" type="button" class="cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 24 24" fill="none" stroke="#ff4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
+                        <button onclick="window.location.href =`{{ url_for('profile.user', username=current_user.username) }}`"
+                                type="button"
+                                class="group relative flex items-center hover:border-red-400 gap-2 px-4 py-2 rounded-lg border-2 border-gray-200 transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3a3a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:stroke-red-600 transition-colors">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-red-600 transition-colors">Profile</span>
                         </button>
-                        <button class="px-6 py-2 bg-red-600 hover:bg-red-700 transition text-white rounded-md flex items-center gap-2" onclick="window.location.href = `{{ url_for('auth.logout') }}`; ">
+
+                        <button class="text-sm font-medium px-6 py-2 bg-red-600 hover:bg-red-700 transition text-white rounded-md flex items-center gap-2" onclick="window.location.href = `{{ url_for('auth.logout') }}`; ">
                             <div>Logout</div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
                         </button>
                     {% endif %}
                 </div>
 
-                <div class="lg:hidden space-x-3">
+                <div class="lg:hidden flex items-center space-x-3">
                     {% if current_user.is_authenticated %}
-                        <button onclick="window.location.href =`{{ url_for('profile.user', username=current_user.username) }}`" type="button" class="lg:hidden active:scale-90 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
-                        </button>
+                    <button onclick="window.location.href =`{{ url_for('profile.user', username=current_user.username) }}`"
+                            type="button"
+                            class="relative h-10 w-10 rounded-lg border-2 border-gray-300 bg-white flex items-center justify-center active:border-red-500 active:bg-red-50 active:scale-95 transition-all duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="active:stroke-red-600 transition-colors duration-150 text-gray-500">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
                     {% endif %}
-                    <button id="open-menu" class="lg:hidden active:scale-90 transition">
-                        <svg class="h-8 w-8 text-red-500" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+                    <button id="open-menu" class="h-10 w-10 rounded-lg border-2 border-gray-300 bg-white flex items-center justify-center lg:hidden active:border-red-500 active:bg-red-50 active:scale-95 transition-all duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="active:stroke-red-600 transition-colors duration-150 text-gray-500 h-5 w-5">
+                            <path d="M4 6h16"/>
+                            <path d="M4 12h16"/>
+                            <path d="M4 18h16"/>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -65,9 +92,11 @@
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('main.index') }}">Home</a>
             {% endif %}
-            <a href="#">Explore</a>
-            <a href="{{ url_for('auth.login') }}">Login</a>
-            <a class="text-red-700" href="{{ url_for('auth.register') }}">Register</a>
+            {% if current_user.is_anonymous %}
+                <a href="#">Explore</a>
+                <a href="{{ url_for('auth.login') }}">Login</a>
+                <a class="text-red-700" href="{{ url_for('auth.register') }}">Register</a>
+            {% endif %}
             {% if current_user.is_authenticated %}
                 <a href="#">Modules</a>
                 <a href="#">Gallery</a>
@@ -81,7 +110,7 @@
         {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
                 {% for message in messages %}
-                <div id="flash-element" class="z-40 absolute -top-16 opacity-0 translate-y-0 transition-all duration-500 ease-out flex items-center justify-between max-w-xl w-full {% if message[0] == 'error' %}  bg-red-400 text-red-600 {% else %} bg-blue-400 text-white {% endif %} px-3 h-10 rounded-sm my-4">
+                <div id="flash-element" class="z-40 absolute -top-16 opacity-0 translate-y-0 transition-all duration-500 ease-out flex items-center justify-between max-w-xl w-full {% if message[0] == 'error' %}  bg-red-100 text-red-600 {% else %} bg-blue-400 text-white {% endif %} px-3 h-10 rounded-sm my-4">
                     <div class="flex items-center">
                         <svg class="cursor-pointer" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10 14.167q.354 0 .593-.24.24-.24.24-.594a.8.8 0 0 0-.24-.593.8.8 0 0 0-.594-.24.8.8 0 0 0-.593.24.8.8 0 0 0-.24.593q0 .354.24.594t.593.24m-.834-3.334h1.667v-5H9.166zm.833 7.5a8.1 8.1 0 0 1-3.25-.656 8.4 8.4 0 0 1-2.645-1.781 8.4 8.4 0 0 1-1.782-2.646A8.1 8.1 0 0 1 1.666 10q0-1.73.656-3.25a8.4 8.4 0 0 1 1.782-2.646 8.4 8.4 0 0 1 2.645-1.781A8.1 8.1 0 0 1 10 1.667q1.73 0 3.25.656a8.4 8.4 0 0 1 2.646 1.781 8.4 8.4 0 0 1 1.781 2.646 8.1 8.1 0 0 1 .657 3.25 8.1 8.1 0 0 1-.657 3.25 8.4 8.4 0 0 1-1.78 2.646 8.4 8.4 0 0 1-2.647 1.781 8.1 8.1 0 0 1-3.25.656" fill="currentColor"/>

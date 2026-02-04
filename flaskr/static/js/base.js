@@ -24,19 +24,29 @@ export function handleFlashButton() {
 
   if (!flashElement) return;
 
-  requestAnimationFrame(() => {
-    flashElement.classList.remove("opacity-0");
-    flashElement.classList.add("translate-y-32", "opacity-100");
-  })
 
-  if (!closeFlash) return;
-
-  closeFlash.addEventListener("click", () => {
+  const removeFlashElement = () => {
     flashElement.classList.remove("translate-y-32", "opacity-100");
     flashElement.classList.add("opacity-0");
 
     setTimeout(() => {
       flashElement.remove();
     }, 500);
+  }
+
+
+  requestAnimationFrame(() => {
+    flashElement.classList.remove("opacity-0");
+    flashElement.classList.add("translate-y-32", "opacity-100");
+
+    setTimeout(() => {
+      removeFlashElement();
+    }, 5000)
+  })
+
+  if (!closeFlash) return;
+
+  closeFlash.addEventListener("click", () => {
+    removeFlashElement();
   })
 }

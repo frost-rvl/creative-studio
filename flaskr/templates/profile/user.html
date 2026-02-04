@@ -6,7 +6,7 @@
             <div class="rounded-t-lg h-72 overflow-hidden bg-gray-300">
                 <img class="object-cover object-center w-full" src='{{ user.cover }}' alt=''>
             </div>
-            <div class="px-16 relative -mt-24 flex flex-row gap-8 items-center w-full">
+            <div class="px-16 relative -mt-24 flex  flex-col lg:flex-row gap-8 items-center w-full">
                 <div class="w-64 h-64 border-4 border-gray-100 rounded-full overflow-hidden">
                     <img class="object-cover object-center h-64 w-full" src='{{ user.avatar }}' alt='{{ user.username }}'>
                 </div>
@@ -14,10 +14,18 @@
                     <h2 class="font-semibold text-3xl">{{ user.username }}</h2>
                 </div>
                 {% if user == current_user %}
-                    <button class="hover:bg-slate-50 transition px-6 py-2 border border-red-600 rounded-md ml-auto" onclick="window.location.href = `{{ url_for('profile.edit_profile') }}`; ">Edit profile</button>
+                <button onclick="window.location.href =`{{ url_for('profile.edit_profile') }}`"
+                        type="button"
+                        class="lg:ml-auto group relative flex items-center hover:border-red-400 gap-2 px-4 py-2 rounded-lg border-2 border-gray-200 transition-all duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:stroke-red-600 transition-colors text-gray-500">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                        <path d="m15 5 4 4"></path>
+                    </svg>
+                    <span class="text-sm font-medium text-gray-700 group-hover:text-red-600 transition-colors">Edit profile</span>
+                </button>
                 {% endif %}
             </div>
-            <div class="ml-20 mt-8">
+            <div class="text-center w-full lg:text-left lg:ml-20 mt-8">
                 <p class="text-gray-500 {% if not user.about_me %} invisible {% endif %}">{{ user.about_me }}</p>
             </div>
         </div>
