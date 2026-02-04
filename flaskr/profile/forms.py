@@ -9,10 +9,12 @@ class EditProfileForm(FlaskForm):
     avatar = FileField(
         "Profile picture",
         validators=[FileAllowed(["jpg", "png", "jpeg"])],
+        id="avatar-input",
     )
     cover = FileField(
         "Cover photo",
         validators=[FileAllowed(["jpg", "png", "jpeg"])],
+        id="cover-input",
     )
     username = StringField(
         "Username", validators=[DataRequired(), Length(min=4, max=128)]

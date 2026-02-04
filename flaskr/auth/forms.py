@@ -39,6 +39,10 @@ class RegistrationForm(FlaskForm):
         user = db.session.scalar(sa.select(User).where(User.username == username.data))
         if user is not None:
             raise ValidationError("Please use a different username.")
+        if not re.match(r"^[a-zA-Z0-9._-]+$", username.data):
+            raise ValidationError(
+                "Username can only contain letters, numbers, dots, hyphens, and underscores."
+            )
 
     def validate_email(self, email):
         user = db.session.scalar(sa.select(User).where(User.email == email.data))
