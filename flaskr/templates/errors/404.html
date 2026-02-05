@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <main class="flex flex-col justify-center items-center min-h-[80vh]">
+        <div class="flex flex-col items-center justify-center text-sm max-md:px-4">
+            <h1 class="text-8xl md:text-9xl font-bold text-red-500">404</h1>
+            <div class="h-1 w-16 rounded bg-red-500 my-5 md:my-7"></div>
+            <p class="text-xl md:text-2xl font-bold text-slate-600">Page Not Found</p>
+            <p class="text-sm md:text-base mt-4 text-gray-500 max-w-md text-center">
+                The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+            <div class="flex items-center gap-4 mt-6">
+                <button onclick="history.back()"
+                        class="bg-red-500 hover:bg-red-600 px-7 py-2.5 text-white rounded-md active:scale-95 transition-all">
+                    Go Back
+                </button>
+            </div>
+        </div>
+    </main>
+{% endblock %}
