@@ -3,6 +3,7 @@ from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from flaskr import db
+from flaskr.main.forms import EmptyForm
 from flaskr.models import User
 from flaskr.profile import bp
 from flaskr.profile.forms import EditProfileForm
@@ -13,7 +14,8 @@ from flaskr.utils import rename_user_folder, save_user_image
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
-    return render_template("profile/user.html", title="Profile", user=user)
+    form = EmptyForm()
+    return render_template("profile/user.html", title="Profile", user=user, form=form)
 
 
 @bp.route("/edit_profile", methods=["GET", "POST"])
@@ -52,3 +54,43 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template("profile/edit_profile.html", title="Edit Profile", form=form)
+
+
+@bp.route("/follow/<username>", methods=["POST"])
+@login_required
+def follow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if user is None:
+            flash(message=f"User {username} not found.", category="info")
+            return redirect(url_for("main.index"))
+        if user == current_user:
+            flash(message="You cannont follow yourself", category="warning")
+            return redirect(url_for("profile.user", username=username))
+        current_user.follow(user)
+        db.session.commit()
+        flash(message=f"You are following {username}!", category="success")
+        return redirect(url_for("profile.user", username=username))
+    else:
+        return redirect(url_for("main.index"))
+
+
+@bp.route("/unfollow/<username>", methods=["POST"])
+@login_required
+def unfollow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if user is None:
+            flash(message=f"User {username} not found.", category="info")
+            return redirect(url_for("main.index"))
+        if user == current_user:
+            flash(message="You cannot unfollow yourself!", category="warning")
+            return redirect(url_for("profile.user", username=username))
+        current_user.unfollow(user)
+        db.session.commit()
+        flash(message=f"You are not following {username}!", category="info")
+        return redirect(url_for("profile.user", username=username))
+    else:
+        return redirect(url_for("main.index"))
