@@ -19,7 +19,7 @@ def user(username):
 @bp.route("/edit_profile", methods=["GET", "POST"])
 @login_required
 def edit_profile():
-    form = EditProfileForm()
+    form = EditProfileForm(current_user.username)
     old_username = current_user.username
     if form.validate_on_submit():
         if form.username.data != old_username:

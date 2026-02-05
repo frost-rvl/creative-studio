@@ -1,0 +1,92 @@
+2026-02-05 15:11:30,593 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists
+2026-02-05 15:20:06,668 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists
+2026-02-05 15:24:05,014 ERROR: Exception on /abdel [GET] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/nix/store/bd18j57pli7843h22crccyvmjvxbvz0h-python3.13-werkzeug-3.1.4/lib/python3.13/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 802, in handle_user_exception
+    return self.handle_http_exception(e)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 777, in handle_http_exception
+    return self.ensure_sync(handler)(e)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/errors/handlers.py", line 9, in not_found_error
+    return render_template("errors/404.html"), 404
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File "/nix/store/xjv3d4mkc9djknbqls7zk9r2y4s2kfyw-python3.13-jinja2-3.1.6/lib/python3.13/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/nix/store/xjv3d4mkc9djknbqls7zk9r2y4s2kfyw-python3.13-jinja2-3.1.6/lib/python3.13/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/templates/errors/404.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/templates/base.html", line 129, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/templates/errors/404.html", line 11, in block 'content'
+    <a href="{{ main.index }}" class="bg-gray-800 hover:bg-black px-7 py-2.5 text-white rounded-md active:scale-95 transition-all">
+    ^^^^^^^^^
+  File "/nix/store/xjv3d4mkc9djknbqls7zk9r2y4s2kfyw-python3.13-jinja2-3.1.6/lib/python3.13/site-packages/jinja2/environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'main' is undefined
