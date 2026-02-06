@@ -1,6 +1,7 @@
 .direnv
 .envrc
-.flaskenv
+.env
+.gitignore
 __pycache__
 node_modules
 uploads

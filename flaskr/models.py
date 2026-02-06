@@ -1,7 +1,9 @@
 import os
 import uuid
 from datetime import datetime, timezone
+from time import time
 
+import jwt
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from flask import current_app, url_for
@@ -30,6 +32,8 @@ class User(UserMixin, db.Model):
     )
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
     email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
+    is_verified: so.Mapped[sa.Boolean] = so.mapped_column(sa.Boolean(), default=False)
+
     password_hash: so.Mapped[str] = so.mapped_column(sa.String(256))
     artworks: so.WriteOnlyMapped["Artwork"] = so.relationship(back_populates="author")
 
@@ -116,6 +120,43 @@ class User(UserMixin, db.Model):
             self.following.select().subquery()
         )
         return db.session.scalar(query)
+
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {"reset_password": self.id, "exp": time() + expires_in},
+            current_app.config["SECRET_KEY"],
+            algorithm="HS256",
+        )
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(
+                token, current_app.config["SECRET_KEY"], algorithms=["HS256"]
+            )["reset_password"]
+        except Exception:
+            return
+        return db.session.get(User, id)
+
+    def get_email_verification_token(self, expires_in=600):
+        return jwt.encode(
+            {"verify_email": self.id, "exp": time() + expires_in},
+            current_app.config["SECRET_KEY"],
+            algorithm="HS256",
+        )
+
+    def set_email_verified(self):
+        self.is_verified = True  # type: ignore
+
+    @staticmethod
+    def verify_email_verification_token(token):
+        try:
+            id = jwt.decode(
+                token, current_app.config["SECRET_KEY"], algorithms=["HS256"]
+            )["verify_email"]
+        except Exception:
+            return
+        return db.session.get(User, id)
 
 
 class ArtworkType(db.Model):

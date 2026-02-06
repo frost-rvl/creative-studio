@@ -65,3 +65,25 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(
                 "Password must contain at least one special character."
             )
+
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Request Password Reset")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(
+        "Password", validators=[DataRequired()], id="reset-password"
+    )
+    password2 = PasswordField(
+        "Repeat Password",
+        validators=[DataRequired(), EqualTo("password")],
+        id="repeat-reset-password",
+    )
+    submit = SubmitField("Request Password Reset")
+
+
+class EmailVerificationRequestForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Verify Email")

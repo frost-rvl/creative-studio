@@ -60,3 +60,43 @@ export function handleRegisterPasswordVisibility() {
     }
   })
 }
+
+//Toggle password visibility in Reset password page
+export function handleResetPasswordVisibility() {
+  const toggleBtn = document.getElementById("show-reset-password");
+  const toggleBtn2 = document.getElementById("show-repeat-reset-password");
+  const password = document.getElementById("reset-password");
+  const password2 = document.getElementById("repeat-reset-password");
+
+  if (!toggleBtn || !toggleBtn2 || !password || !password2) return;
+
+  toggleBtn.addEventListener('click', () => {
+    const eyeOff = toggleBtn.children[0];
+    const eyeOn = toggleBtn.children[1];
+
+    if (password.type === 'password') {
+      password.type = 'text';
+      eyeOff.classList.add('hidden');
+      eyeOn.classList.remove('hidden');
+    } else {
+      password.type = 'password';
+      eyeOn.classList.add('hidden');
+      eyeOff.classList.remove('hidden');
+    }
+  })
+
+  toggleBtn2.addEventListener('click', () => {
+    const eyeOff = toggleBtn2.children[0];
+    const eyeOn = toggleBtn2.children[1];
+
+    if (password2.type === 'password') {
+      password2.type = 'text';
+      eyeOff.classList.add('hidden');
+      eyeOn.classList.remove('hidden');
+    } else {
+      password2.type = 'password';
+      eyeOn.classList.add('hidden');
+      eyeOff.classList.remove('hidden');
+    }
+  })
+}

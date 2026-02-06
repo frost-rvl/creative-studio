@@ -26,7 +26,7 @@ export function handleFlashButton() {
 
 
   const removeFlashElement = () => {
-    flashElement.classList.remove("translate-y-32", "opacity-100");
+    flashElement.classList.remove("translate-y-16", "opacity-100");
     flashElement.classList.add("opacity-0");
 
     setTimeout(() => {
@@ -37,7 +37,7 @@ export function handleFlashButton() {
 
   requestAnimationFrame(() => {
     flashElement.classList.remove("opacity-0");
-    flashElement.classList.add("translate-y-32", "opacity-100");
+    flashElement.classList.add("translate-y-16", "opacity-100");
 
     setTimeout(() => {
       removeFlashElement();
