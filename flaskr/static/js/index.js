@@ -1,5 +1,5 @@
 import { handleNavbar, handleFlashButton } from "./base.js";
-import { handleLoginPasswordVisibility, handleRegisterPasswordVisibility } from "./auth.js";
+import { handleLoginPasswordVisibility, handleRegisterPasswordVisibility, handleResetPasswordVisibility } from "./auth.js";
 import { initializeProfileUploads } from "./profile.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   handleLoginPasswordVisibility();
   handleRegisterPasswordVisibility();
+  handleResetPasswordVisibility();
+
   handleNavbar();
   handleFlashButton();
   console.log("DOM loaded");

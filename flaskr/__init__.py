@@ -6,6 +6,7 @@ from logging.handlers import RotatingFileHandler, SMTPHandler
 import sqlalchemy as sa
 from flask import Flask
 from flask_login import LoginManager
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -16,6 +17,7 @@ migrate = Migrate()
 login = LoginManager()
 login.login_view = "auth.login"  # type: ignore
 login.login_message = "Please log in to access this page."
+mail = Mail()
 
 
 def create_app(config_class=Config):
@@ -25,6 +27,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
+    mail.init_app(app)
 
     from flaskr.errors import bp as errors_bp
 

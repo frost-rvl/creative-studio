@@ -38,7 +38,7 @@
                         {{ form.remember_me(class_="accent-red-500") }}
                         {{ form.remember_me.label }}
                     </div>
-                    <a class="text-red-600 underline" href="#">Forgot Password</a>
+                    <a class="text-red-600 underline" href="{{ url_for('auth.reset_password_request') }}">Forgot Password</a>
                 </div>
             {{ form.submit(class_="w-full rounded-lg bg-red-500 px-4 py-2 font-medium text-white transition duration-300 hover:bg-red-600")}}
             <p class="text-center mt-4">Don't have an account?&nbsp;&nbsp;<a href="{{ url_for('auth.register') }}" class="text-red-500 underline">Signup</a></p>

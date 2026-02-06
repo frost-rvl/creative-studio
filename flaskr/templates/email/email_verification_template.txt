@@ -1,0 +1,10 @@
+Hi {{ user.username }}!
+
+Welcome to Creative Studio. Please verify your email address:
+
+{{ url_for('auth.email_verification', token=token, _external=True) }}
+
+This link expires in 10 minutes. If you didn't create an account, ignore this email.
+
+Best regards,
+The Creative Studio Team

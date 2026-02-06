@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="flex flex-col items-center max-md:px-2 mt-32">
+    <div class="rounded-xl border border-gray-200 py-8 px-6 max-w-120 w-full">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+            <svg class="h-8 w-8 text-red-500" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        </div>
+
+        <h1 class="mb-6 text-center text-xl font-bold text-gray-800">Email verification request</h1>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="mb-4">
+                {{ form.email.label(class_="mb-1 block text-sm font-medium text-gray-700") }}
+                {{ form.email(class_="w-full rounded-lg border border-gray-300 px-3 py-2 transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500")}}
+                {% for error in form.email.errors %}
+                    <div class="text-red-500 text-xs italic">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class_="w-full rounded-lg bg-red-500 px-4 py-2 font-medium text-white transition duration-300 hover:bg-red-600")}}
+        </form>
+    </div>
+</main>
+{% endblock %}

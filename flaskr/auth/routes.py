@@ -4,7 +4,14 @@ from flask_login.utils import current_user, login_user, logout_user, urlsplit
 
 from flaskr import db
 from flaskr.auth import bp
-from flaskr.auth.forms import LoginForm, RegistrationForm
+from flaskr.auth.email import send_email_verficication_email, send_password_reset_email
+from flaskr.auth.forms import (
+    EmailVerificationRequestForm,
+    LoginForm,
+    RegistrationForm,
+    ResetPasswordForm,
+    ResetPasswordRequestForm,
+)
 from flaskr.models import User
 
 
@@ -20,6 +27,9 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash(message="Invalid username or password", category="error")
             return redirect(url_for("auth.login"))
+        if not user.is_verified:
+            flash(message="Please verify your email before logging in.")
+            return redirect(url_for("auth.email_verification_request"))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get("next")
         if not next_page or urlsplit(next_page).netloc != "":
@@ -44,8 +54,91 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        send_email_verficication_email(user)
+
         flash(
-            message="Congratulations, you are now a registered user!", category="info"
+            message="Registration successful! Please check you email to verify you account",
+            category="info",
         )
         return redirect(url_for("auth.login"))
     return render_template("auth/register.html", title="Register", form=form)
+
+
+@bp.route("/reset_password_request", methods=["GET", "POST"])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.email == form.email.data))
+        if user:
+            send_password_reset_email(user)
+        flash(
+            message="Check your email for the instructions to reset your password",
+            category="info",
+        )
+        return redirect(url_for("auth.login"))
+    return render_template(
+        "auth/reset_password_request.html", title="Reset Password", form=form
+    )
+
+
+@bp.route("/reset_password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for("main.index"))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash(message="Your password has been reset.", category="success")
+        return redirect(url_for("auth.login"))
+    return render_template("auth/reset_password.html", form=form)
+
+
+@bp.route("/email_verification_request", methods=["GET", "POST"])
+def email_verification_request():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    form = EmailVerificationRequestForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.email == form.email.data))
+        if user:
+            send_email_verficication_email(user)
+        flash(
+            message="Check your email for the instructions to activate your account",
+            category="info",
+        )
+        return redirect(url_for("auth.login"))
+    return render_template(
+        "auth/email_verification_request.html", title="Verify Email", form=form
+    )
+
+
+@bp.route("/email_verification/<token>", methods=["POST"])
+def email_verification(token):
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    user = User.verify_email_verification_token(token)
+    if not user:
+        flash(message="Invalid or expired verification link.", category="error")
+        return redirect(url_for("main.index"))
+
+    if user.is_verified:
+        flash(
+            message="Your email is already verified. You can log in now.",
+            category="info",
+        )
+        return redirect(url_for("auth.login"))
+
+    user.set_email_verified()
+    db.session.commit()
+    flash(
+        message="Your email has been verified successfully! You can now log in",
+        category="success",
+    )
+    return redirect(url_for("auth.login"))

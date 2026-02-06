@@ -1,22 +1,63 @@
 # Creative Studio
 
-A collection of projects build in python
+A collection of projects built with Python.
+
+## Requirements
+- Python 3.x
+- Node.js & npm
+- (Optional) Nix package manager
 
 ## Installation
 
-Install required packages with nix package manager and npm
-
+### 1. Set up a Python virtual environment
 ```bash
-  nix develop
-  npm install
+python -m venv .venv
+source .venv/bin/activate
 ```
 
-## Run 
+### 2. Install python dependencies
 
-To run development environment, execute the code below :
+Using pip
 
 ```bash
-  npm run start
+pip install -r requirements.txt
 ```
 
-This will launch flask, tailwindcss (builder) and browser-sync
+then setup your .env with the given example
+
+Or using Nix
+
+```bash
+nix develop
+```
+
+then setup your .envrc and add "use flake" to load flake automatically
+
+### 3. Install Node.js dependencies
+
+```bash
+npm install
+```
+
+## Run (Development)
+
+To start the developent environment:
+
+```bash
+npm run dev
+```
+
+This will launch flask, tailwindcss(builder) and browser-sync
+
+## Features
+- Landing page
+- User authentication
+- Email support 
+- User profile page
+
+## Coming son
+- Artwork modules
+- Gallery/Explore/Home pages
+- Full text search
+- Artwork description translator
+- User notifications
