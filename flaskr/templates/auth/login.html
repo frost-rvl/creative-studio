@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="flex flex-col items-center max-md:px-2 mt-32">
+    <div class="rounded-xl border border-gray-200 py-8 px-6 max-w-120 w-full">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+            <svg class="h-8 w-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+        </div>
+
+        <h1 class="mb-6 text-center text-xl font-bold text-gray-800">Quick Login</h1>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="mb-4">
+                {{ form.username.label(class_="mb-1 block text-sm font-medium text-gray-700") }}
+                {{ form.username(class_="w-full rounded-lg border border-gray-300 px-3 py-2 transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500")}}
+                {% for error in form.username.errors %}
+                    <div class="text-red-500 text-xs italic">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-6">
+                {{ form.password.label(class_="mb-1 block text-sm font-medium text-gray-700") }}
+                <div class="relative">
+                    {{ form.password(class_="w-full rounded-lg border border-gray-300 px-3 py-2 transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500")}}
+                    <button type="button" id="show-login-password" class="absolute top-0 bottom-0 right-3 mx-auto my-0 z-50 block cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>
+                        <svg class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </button>
+                </div>
+                {% for error in form.password.errors %}
+                    <div class="text-red-500 text-xs italic">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-1">
+                        {{ form.remember_me(class_="accent-red-500") }}
+                        {{ form.remember_me.label }}
+                    </div>
+                    <a class="text-red-600 underline" href="{{ url_for('auth.reset_password_request') }}">Forgot Password</a>
+                </div>
+            {{ form.submit(class_="w-full rounded-lg bg-red-500 px-4 py-2 font-medium text-white transition duration-300 hover:bg-red-600")}}
+            <p class="text-center mt-4">Don't have an account?&nbsp;&nbsp;<a href="{{ url_for('auth.register') }}" class="text-red-500 underline">Signup</a></p>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <main class="flex flex-col justify-center items-center min-h-[80vh]">
+        <div class="flex flex-col items-center justify-center text-sm max-md:px-4">
+            <h1 class="text-8xl md:text-9xl font-bold text-orange-500">500</h1>
+            <div class="h-1 w-16 rounded bg-orange-500 my-5 md:my-7"></div>
+            <p class="text-xl md:text-2xl font-bold text-slate-600">Internal Server Error</p>
+            <p class="text-sm md:text-base mt-4 text-gray-500 max-w-md text-center">
+                An unexpected error has occurred. The administrator has been notified. Sorry for the inconvenience!
+            </p>
+            <div class="flex items-center gap-4 mt-6">
+                <button onclick="history.back()"
+                        class="bg-red-500 hover:bg-red-600 px-7 py-2.5 text-white rounded-md active:scale-95 transition-all">
+                    Go Back
+                </button>
+                <a href="{{ url_for('main.index') }}"
+                   class="bg-none border-2 border-gray-200 hover:border-red-400 px-7 py-2.5 text-gray-700 hover:text-red-600 rounded-md active:scale-95 transition-all">
+                    Return Home
+                </a>
+            </div>
+        </div>
+    </main>
+{% endblock %}
