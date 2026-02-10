@@ -1,0 +1,100 @@
+2026-02-05 15:34:17,395 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists
+2026-02-05 15:34:34,399 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists
+2026-02-05 15:34:42,277 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists
+2026-02-05 15:37:56,058 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists
+2026-02-05 15:38:41,771 ERROR: Exception on /edit_profile [POST] [in /nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/nix/store/nknm2g0hk403dy56z858di7k3hvgnw3v-python3.13-flask-3.1.2/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/nix/store/szvalnrl7346jyph6q5ak2djjla14gyc-python3.13-flask-login-0.7.0dev0-2024-06-18/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/profile/routes.py", line 26, in edit_profile
+    rename_user_folder(old_username, form.username.data)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frost_rvl/Repos/creative-studio/flaskr/utils.py", line 25, in rename_user_folder
+    raise FileExistsError("Target user folder already exists")
+FileExistsError: Target user folder already exists

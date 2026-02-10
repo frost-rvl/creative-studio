@@ -24,8 +24,16 @@
 
             # Python packages
             pkgs.python313
-            pkgs.python313Packages.flask
             pkgs.python313Packages.python-dotenv
+            pkgs.python313Packages.email-validator
+            pkgs.python313Packages.pyjwt
+            pkgs.python313Packages.pip
+            pkgs.python313Packages.flask
+            pkgs.python313Packages.flask-wtf
+            pkgs.python313Packages.flask-sqlalchemy
+            pkgs.python313Packages.flask-migrate
+            pkgs.python313Packages.flask-login
+            pkgs.python313Packages.flask-mail
           ];
         };
       }
