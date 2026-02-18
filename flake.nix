@@ -28,6 +28,7 @@
             pkgs.python313Packages.email-validator
             pkgs.python313Packages.pyjwt
             pkgs.python313Packages.pip
+            pkgs.python313Packages.pygame
             pkgs.python313Packages.flask
             pkgs.python313Packages.flask-wtf
             pkgs.python313Packages.flask-sqlalchemy
