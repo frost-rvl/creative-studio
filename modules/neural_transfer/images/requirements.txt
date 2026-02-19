@@ -1,0 +1,15 @@
+# ── Core ML ──────────────────────────────────────────────────────────────────
+tensorflow>=2.13.0,<3.0.0
+tensorflow-hub>=0.14.0
+
+# ── Image processing ──────────────────────────────────────────────────────────
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# ── Web framework (context only — not part of this component) ─────────────────
+# Flask>=3.0.0
+# Werkzeug>=3.0.0        # FileStorage used in utils/image_utils.py
+
+# ── Optional: GPU support ─────────────────────────────────────────────────────
+# Uncomment below if you have an NVIDIA GPU + CUDA 12.x:
+# tensorflow[and-cuda]>=2.13.0
