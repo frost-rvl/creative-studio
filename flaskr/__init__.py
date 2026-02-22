@@ -86,7 +86,7 @@ def _seed_db_impl() -> None:
 
     art_types = [
         {
-            "name": "generative_art",
+            "name": "zelija",
             "allowed_extensions": "jpg,jpeg,png,gif,webp,mp4,webm",
             "max_file_size": 20 * 1024 * 1024,  # 20MB
         },
@@ -106,7 +106,7 @@ def _seed_db_impl() -> None:
             "max_file_size": 15 * 1024 * 1024,  # 15MB
         },
         {
-            "name": "ai_project",
+            "name": "neural_transfer",
             "allowed_extensions": "zip,tar,gz,pdf,mp4,jpg,png",
             "max_file_size": 50 * 1024 * 1024,  # 50MB
         },

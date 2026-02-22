@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="w-full max-w-7xl md:px-16 lg:px-0 my-16">
+        <div class="grid grid-cols-2 gap-6">
+            <a href="{{ url_for('modules.module', module_name='zelija') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
+                <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
+                <div class="px-4 py-4">
+                    <p class="text-xl font-semibold text-slate-800">Zelija</p>
+                    <p class="text-sm text-slate-500 mt-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores, et.</p>
+                </div>
+            </a>
+            <a href="{{ url_for('modules.module', module_name='neural_transfer') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
+                <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
+                <div class="px-4 py-4">
+                    <p class="text-xl font-semibold text-slate-800">Neural Transfer</p>
+                    <p class="text-sm text-slate-500 mt-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores, et.</p>
+                </div>
+            </a>
+            <a href="#" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
+                <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
+                <div class="px-4 py-4">
+                    <p class="text-xl font-semibold text-slate-800">Data Visualization</p>
+                    <p class="text-sm text-slate-500 mt-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores, et.</p>
+                </div>
+            </a>
+            <a href="#" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
+                <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
+                <div class="px-4 py-4">
+                    <p class="text-xl font-semibold text-slate-800">Image manipulation</p>
+                    <p class="text-sm text-slate-500 mt-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores, et.</p>
+                </div>
+            </a>
+        </div>
+    </main>
+{% endblock %}
