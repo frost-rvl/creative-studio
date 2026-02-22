@@ -5,3 +5,5 @@
 __pycache__
 node_modules
 uploads
+.idea
+user_file.txt
