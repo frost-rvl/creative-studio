@@ -29,22 +29,17 @@ def create_app(config_class=Config):
     login.init_app(app)
     mail.init_app(app)
 
-    from flaskr.errors import bp as errors_bp
-
-    app.register_blueprint(errors_bp)
-
-    from flaskr.main import bp as main_bp
-
-    app.register_blueprint(main_bp)
-
     from flaskr.auth import bp as auth_bp
-
-    app.register_blueprint(auth_bp)
-
+    from flaskr.errors import bp as errors_bp
+    from flaskr.main import bp as main_bp
+    from flaskr.modules import bp as modules_bp
     from flaskr.profile import bp as profile_bp
 
+    app.register_blueprint(errors_bp)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
-
+    app.register_blueprint(modules_bp)
     register_db_populate_commands(app)
 
     if not app.debug and not app.testing:

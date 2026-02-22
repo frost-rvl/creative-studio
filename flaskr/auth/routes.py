@@ -119,7 +119,7 @@ def email_verification_request():
     )
 
 
-@bp.route("/email_verification/<token>", methods=["POST"])
+@bp.route("/email_verification/<token>")
 def email_verification(token):
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
