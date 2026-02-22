@@ -1,19 +1,87 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <main class="flex flex-row items-center max-md:px-2 gap-32 mt-16">
-            <div class="bg-white rounded-2xl pb-4 overflow-hidden border border-gray-200 hover:-translate-y-1 transition duration-300">
-                <img class="w-72 object-cover object-top" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=400" alt="userImage2">
-                <div class="flex flex-col items-center">
-                    <p class="font-medium mt-3">Kelvin John</p>
+<main class="w-full max-w-7xl md:px-16 lg:px-0 mt-16">
+    <div class="w-full flex flex-col">
+        <div class="flex flex-1 overflow-hidden gap-4 border-gray-200 border rounded-lg">
+            <!-- Renderer (left, ~70%) -->
+            <div class="flex flex-col flex-1 border-r border-gray-200 overflow-hidden">
+                <div class="flex-1 relative bg-gray-50 flex items-center justify-center overflow-hidden"
+                     id="rendererScreen"
+                     style="background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px); background-size: 24px 24px;">
+                    <div class="text-center select-none" id="rendererIdle">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-gray-200 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-gray-400 font-medium">Renderer ready</p>
+                        <p class="text-xs text-gray-300 mt-1">Start the module to begin</p>
+                    </div>
+                    <span class="absolute bottom-4 right-10 text-xs text-gray-300 font-mono" id="rendererRes"></span>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl pb-4 overflow-hidden border border-gray-200 hover:-translate-y-1 transition duration-300">
-                <img class="w-72 object-cover object-top" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=400" alt="userImage2">
-                <div class="flex flex-col items-center">
-                    <p class="font-medium mt-3">Kelvin John</p>
+            <!-- Sidebar (right) -->
+            <div class="w-80 flex flex-col bg-white overflow-y-auto">
+                <div class="px-6 pt-8 pb-6 border-b border-gray-100">
+                    <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-2">Module</p>
+                    <h1 class="text-2xl font-bold text-gray-800 leading-tight">
+                        {% set parts = module_name.split('_') %}
+                        {% for part in parts %}
+                            {% if loop.first %}<span class="text-red-600">{{ part | title }}</span>{% else %} {{ part | title }}{% endif %}
+                        {% endfor %}
+                    </h1>
+                    <p class="text-sm text-gray-400 mt-2 leading-relaxed">Configure your artwork then save or share it with the community.</p>
                 </div>
+                <form method="POST" action="{{ url_for('modules.module', module_name=module_name) }}" class="flex flex-col flex-1 px-6 py-6 gap-5">
+                    <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Artwork details</p>
+                        <div class="mb-4">
+                            <label for="art_title" class="mb-1 block text-sm font-medium text-gray-700">Title</label>
+                            <input type="text" id="art_title" name="title" placeholder="Untitled artwork" maxlength="256" autocomplete="off"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 placeholder-gray-300"
+                            />
+                        </div>
+                        <div>
+                            <label for="art_desc" class="mb-1 block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="art_desc" name="description" placeholder="Describe your work…" rows="4" maxlength="1024"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 placeholder-gray-300 resize-none"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-100"></div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Publish</p>
+                        <div class="flex flex-col gap-3">
+                            <button type="submit" name="action" value="save"
+                                class="w-full flex items-center justify-center gap-2 rounded-lg border-2 border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition duration-200 active:scale-95">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                    <polyline points="17 21 17 13 7 13 7 21"/>
+                                    <polyline points="7 3 7 8 15 8"/>
+                                </svg>
+                                Save to gallery
+                            </button>
+                            <button type="submit" name="action" value="share"
+                                class="w-full flex items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition duration-200 active:scale-95">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"/>
+                                    <circle cx="6" cy="12" r="3"/>
+                                    <circle cx="18" cy="19" r="3"/>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                                </svg>
+                                Share with community
+                            </button>
+                        </div>
+                        <p class="text-center text-xs text-gray-400 mt-3 leading-relaxed">
+                            Saved artworks are private.<br>Shared artworks are visible to everyone.
+                        </p>
+                    </div>
+                </form>
+
             </div>
-    </main>
+        </div>
+    </div>
+</main>
 {% endblock %}
