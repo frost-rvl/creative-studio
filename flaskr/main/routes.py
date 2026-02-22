@@ -1,13 +1,12 @@
 import os
 
-import sqlalchemy as sa
 from flask import (
     abort,
     current_app,
     render_template,
     send_from_directory,
 )
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from flaskr.main import bp
 
@@ -21,6 +20,7 @@ def index():
 
 
 @bp.route("/uploads/<path:filename>")
+@login_required
 def serve_uploaded_file(filename):
     filepath = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
     if not os.path.exists(filepath):

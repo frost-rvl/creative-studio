@@ -21,6 +21,7 @@
         devShells.default = pkgs.mkShell {
           buildInputs = [
             pkgs.nodejs
+            pkgs.lazygit
 
             # Python packages
             pkgs.python313
