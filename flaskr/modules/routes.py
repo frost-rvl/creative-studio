@@ -14,5 +14,5 @@ def modules_grid():
 @login_required
 def module(module_name):
     return render_template(
-        "modules/module.html", title="Module", module_name=module_name
+        f"modules/{module_name}.html", title="Module", module_name=module_name
     )

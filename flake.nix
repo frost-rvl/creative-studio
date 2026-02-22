@@ -37,6 +37,14 @@
             pkgs.python313Packages.flask-login
             pkgs.python313Packages.flask-mail
           ];
+
+          shellHook = ''
+            if [! -d .venv]; then
+                python -m venv .venv
+            fi
+            source .venv/bin/activate
+            pip install pygbag
+          '';
         };
       }
     );
