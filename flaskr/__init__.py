@@ -29,22 +29,17 @@ def create_app(config_class=Config):
     login.init_app(app)
     mail.init_app(app)
 
-    from flaskr.errors import bp as errors_bp
-
-    app.register_blueprint(errors_bp)
-
-    from flaskr.main import bp as main_bp
-
-    app.register_blueprint(main_bp)
-
     from flaskr.auth import bp as auth_bp
-
-    app.register_blueprint(auth_bp)
-
+    from flaskr.errors import bp as errors_bp
+    from flaskr.main import bp as main_bp
+    from flaskr.modules import bp as modules_bp
     from flaskr.profile import bp as profile_bp
 
+    app.register_blueprint(errors_bp)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
-
+    app.register_blueprint(modules_bp)
     register_db_populate_commands(app)
 
     if not app.debug and not app.testing:
@@ -91,7 +86,7 @@ def _seed_db_impl() -> None:
 
     art_types = [
         {
-            "name": "generative_art",
+            "name": "zelija",
             "allowed_extensions": "jpg,jpeg,png,gif,webp,mp4,webm",
             "max_file_size": 20 * 1024 * 1024,  # 20MB
         },
@@ -111,7 +106,7 @@ def _seed_db_impl() -> None:
             "max_file_size": 15 * 1024 * 1024,  # 15MB
         },
         {
-            "name": "ai_project",
+            "name": "neural_transfer",
             "allowed_extensions": "zip,tar,gz,pdf,mp4,jpg,png",
             "max_file_size": 50 * 1024 * 1024,  # 50MB
         },
