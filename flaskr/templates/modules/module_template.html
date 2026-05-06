@@ -5,10 +5,11 @@
         <div class="flex flex-1 overflow-hidden gap-4 border-gray-200 border rounded-lg">
             <!-- Renderer (left, ~70%) -->
             <div class="flex flex-col flex-1 border-r border-gray-200 overflow-hidden">
-                <div class="flex-1 relative bg-gray-50 flex items-center justify-center overflow-hidden"
+                {% block sidebar_extras %}{% endblock %}
+                {% block renderer %}{% endblock %}
+                <!--<div class="flex-1 relative bg-gray-50 flex items-center justify-center overflow-hidden"
                      style="background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px); background-size: 24px 24px;">
-                         {% block renderer %}{% endblock %}
-                </div>
+                </div>-->
             </div>
 
             <!-- Sidebar (right) -->
