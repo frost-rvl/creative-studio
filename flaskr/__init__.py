@@ -35,6 +35,7 @@ def create_app(config_class=Config):
     from flaskr.modules import bp as modules_bp
     from flaskr.profile import bp as profile_bp
     from flaskr.gallery import bp as gallery_bp
+    from flaskr.explore import bp as explore_bp
 
     app.register_blueprint(errors_bp)
     app.register_blueprint(main_bp)
@@ -42,6 +43,7 @@ def create_app(config_class=Config):
     app.register_blueprint(profile_bp)
     app.register_blueprint(modules_bp)
     app.register_blueprint(gallery_bp)
+    app.register_blueprint(explore_bp)
     register_db_populate_commands(app)
 
     if not app.debug and not app.testing:

@@ -178,6 +178,31 @@ class User(UserMixin, db.Model):
         ).order_by(Artwork.timestamp.desc())
         return db.session.scalars(query).all()
 
+    def get_not_followed_artworks(self, type_name=None):
+        query = sa.select(Artwork).where(
+            (Artwork.user_id.notin_(
+                self.following.select().with_only_columns(User.id)
+            )) & 
+            (Artwork.user_id != self.id) &
+            (Artwork.is_public == True)
+        )
+        
+        if type_name:
+            query = query.join(ArtworkType).where(ArtworkType.name == type_name)
+        
+        query = query.order_by(Artwork.timestamp.desc())
+        return db.session.scalars(query).all()
+
+    def get_explore_artwork_types(self):
+        query = sa.select(ArtworkType).join(Artwork).where(
+            (Artwork.user_id.notin_(
+                self.following.select().with_only_columns(User.id)
+            )) & 
+            (Artwork.user_id != self.id) &
+            (Artwork.is_public == True)
+        ).distinct()
+        return db.session.scalars(query).all()
+
 
 class ArtworkType(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
