@@ -33,7 +33,8 @@
                 
                 <form id="artworkForm" method="POST" class="flex flex-col flex-1 px-6 py-6 gap-5">
                     {{ form.hidden_tag() }}
-                    
+
+                    <input type="hidden" name="image_data" id="image_data"> 
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Artwork details</p>
                         <div class="mb-4">
@@ -60,7 +61,7 @@
                                     <polyline points="17 21 17 13 7 13 7 21"/>
                                     <polyline points="7 3 7 8 15 8"/>
                                 </svg>
-                                Save to gallery
+                                Save privately
                             </button>
                             <button type="submit" name="action" value="share"
                                 class="w-full flex items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition duration-200 active:scale-95">
@@ -71,7 +72,7 @@
                                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
                                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                                 </svg>
-                                Share with community
+                                Save publicly
                             </button>
                         </div>
                         <p class="text-center text-xs text-gray-400 mt-3 leading-relaxed">

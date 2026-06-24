@@ -8,56 +8,79 @@ function b64toBlob(b64, type) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const iframe = document.querySelector('iframe');
-  const form = document.getElementById('artworkForm');
-
-  let iframeReady = false;
-  iframe.addEventListener('load', () => {
-    iframeReady = true;
-    console.log('Iframe loaded');
-  });
-  if (iframe.contentWindow && typeof iframe.contentWindow.captureGrid === 'function') {
-    iframeReady = true;
+  const iframe = document.querySelector('iframe[src^="/pygbag"]');
+  if (!iframe) {
+    console.error('No iframe found');
+    return;
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  const form = document.getElementById('artworkForm');
+  const hiddenInput = document.getElementById('image_data');
+  if (!hiddenInput) {
+    console.error('Hidden input #image_data not found');
+    return;
+  }
 
+  let iframeReady = false;
+
+  function checkCaptureGrid() {
+    try {
+      if (iframe.contentWindow && typeof iframe.contentWindow.captureGrid === 'function') {
+        iframeReady = true;
+        console.log('captureGrid is ready');
+        return true;
+      }
+    } catch (e) {
+      console.warn('Cannot access iframe.contentWindow:', e);
+    }
+    return false;
+  }
+
+  if (checkCaptureGrid()) {
+    console.log('captureGrid already available');
+  } else {
+    console.log('Waiting for captureGrid...');
+    const interval = setInterval(() => {
+      if (checkCaptureGrid()) {
+        clearInterval(interval);
+        console.log('captureGrid detected via polling');
+      }
+    }, 200);
+
+    iframe.addEventListener('load', () => {
+      console.log('Iframe load event fired');
+      if (checkCaptureGrid()) {
+        clearInterval(interval);
+      }
+    });
+
+    setTimeout(() => {
+      if (!iframeReady) {
+        console.warn('captureGrid not found after 10s – check Pygbag script');
+      }
+    }, 10000);
+  }
+
+  form.addEventListener('submit', (e) => {
     if (!iframeReady) {
-      alert('Please wait for the editor to load.');
+      e.preventDefault();
+      alert('Editor is still loading. Please wait a moment and try again.');
       return;
     }
 
     try {
-      const csrfToken = document.querySelector('input[name="csrf_token"]').value;
       const b64 = iframe.contentWindow.captureGrid();
-      if (!b64) {
-        alert('Failed to capture grid – please try again.');
-        return;
-      }
-
-      const blob = b64toBlob(b64, 'image/png');
-      const formData = new FormData();
-      formData.append('csrf_token', csrfToken);
-      formData.append('artwork_image', blob, 'artwork.png');
-      formData.append('title', document.getElementById('title').value);
-      formData.append('description', document.getElementById('description').value);
-      const action = e.submitter?.value || 'save';
-      formData.append('action', action);
-
-      const response = await fetch(location.href, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
+      if (b64 && typeof b64 === 'string' && b64.length > 0) {
+        hiddenInput.value = b64;
+        console.log(`Captured grid: ${b64.length} characters`);
       } else {
-        const text = await response.text();
-        alert(`Upload failed: ${text}`);
+        e.preventDefault();
+        alert('Failed to capture grid – returned empty.');
       }
     } catch (err) {
-      console.error(err);
-      alert(err.message || 'An error occurred');
+      e.preventDefault();
+      console.error('Error capturing grid:', err);
+      alert('Error capturing grid: ' + err.message);
     }
   });
 });

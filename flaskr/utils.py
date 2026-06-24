@@ -29,7 +29,7 @@ def rename_user_folder(old_username: str, new_username: str):
 
 def save_user_image(file, user, kind: str):
     """
-    kind = 'avatar' | 'cover'
+    kind = 'avatar' | 'cover' | 'artwork'
     """
 
     if not file or file.filename == "":
