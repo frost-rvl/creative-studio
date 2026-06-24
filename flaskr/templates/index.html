@@ -1,7 +1,23 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <h1>Hi, {{ current_user.username }}</h1>
-    <p>{{ current_user.email }}</p>
-    <p>{{ current_user.is_verified }}</p>
+<main class="w-full max-w-7xl md:px-16 lg:px-0 mt-16 px-6">
+    <div class="w-full flex flex-col">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Home Feed</h1>
+        
+        {% if artworks %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for artwork in artworks %}
+                {% include "_artwork_card.html" %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-gray-500">No artworks from your following yet.</p>
+            <p class="text-sm text-gray-400 mt-2">
+                Follow more creators to see their work.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</main>
 {% endblock %}

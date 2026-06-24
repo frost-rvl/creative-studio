@@ -169,6 +169,15 @@ class User(UserMixin, db.Model):
         query = sa.select(ArtworkType).join(Artwork).where(Artwork.user_id == self.id).distinct()
         return db.session.scalars(query).all()
 
+    def get_followed_artworks(self):
+        query = sa.select(Artwork).where(
+            (Artwork.user_id.in_(
+                self.following.select().with_only_columns(User.id)
+            )) & 
+            (Artwork.is_public == True)
+        ).order_by(Artwork.timestamp.desc())
+        return db.session.scalars(query).all()
+
 
 class ArtworkType(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
