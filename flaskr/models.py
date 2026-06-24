@@ -158,6 +158,17 @@ class User(UserMixin, db.Model):
             return
         return db.session.get(User, id)
 
+    def get_artworks(self, type_name=None):
+        query = sa.select(Artwork).where(Artwork.user_id == self.id)
+        if type_name:
+            query = query.join(ArtworkType).where(ArtworkType.name == type_name)
+        query = query.order_by(Artwork.timestamp.desc())
+        return db.session.scalars(query).all()
+    
+    def get_artwork_types(self):
+        query = sa.select(ArtworkType).join(Artwork).where(Artwork.user_id == self.id).distinct()
+        return db.session.scalars(query).all()
+
 
 class ArtworkType(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -167,6 +178,7 @@ class ArtworkType(db.Model):
     artworks: so.WriteOnlyMapped["Artwork"] = so.relationship(
         back_populates="artwork_type"
     )
+    
 
 
 class Artwork(db.Model):
@@ -192,7 +204,7 @@ class Artwork(db.Model):
     is_public: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=False)
     file_path: so.Mapped[str] = so.mapped_column(sa.String(512))
     mime_type: so.Mapped[str | None] = so.mapped_column(sa.String(100))
-    file_size: so.Mapped[str | None] = so.mapped_column(sa.Integer)
+    file_size: so.Mapped[int | None] = so.mapped_column(sa.Integer)
 
     @override
     def __repr__(self) -> str:

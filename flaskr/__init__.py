@@ -34,12 +34,14 @@ def create_app(config_class=Config):
     from flaskr.main import bp as main_bp
     from flaskr.modules import bp as modules_bp
     from flaskr.profile import bp as profile_bp
+    from flaskr.gallery import bp as gallery_bp
 
     app.register_blueprint(errors_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(modules_bp)
+    app.register_blueprint(gallery_bp)
     register_db_populate_commands(app)
 
     if not app.debug and not app.testing:
@@ -139,5 +141,10 @@ def register_db_populate_commands(app: Flask) -> None:
         """Initialize the database"""
         db.create_all()
 
+    @app.cli.command()
+    def reset_db() -> None:
+        """Drop all tables and recreate them"""
+        db.drop_all()
+        db.create_all()
 
 from flaskr import models

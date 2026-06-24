@@ -8,6 +8,7 @@ from flaskr.modules import bp
 from flaskr.models import Artwork, ArtworkType
 from flaskr.utils import save_user_image
 from flaskr.modules.forms import ArtworkForm
+from werkzeug.datastructures import FileStorage
 import base64
 import traceback
 import os
@@ -26,10 +27,16 @@ class InMemoryFile:
         return self.data
 
     def seek(self, offset, whence=0):
+        if whence == 0:
+            self.position = offset
+        elif whence == 1:
+            self.position += offset
+        elif whence == 2:
+            self.position = len(self.data) + offset
         pass
 
     def tell(self):
-        return len(self.data)
+        return self.position
 
 @bp.route("/modules")
 @login_required
@@ -55,7 +62,11 @@ def module(module_name):
             image_bytes = base64.b64decode(image_data_b64)
             file_size = len(image_bytes)
 
-            wrapped_file = InMemoryFile(image_bytes, "artwork.png")
+            wrapped_file = FileStorage(
+                stream=BytesIO(image_bytes),
+                filename="artwork.png",
+                content_type="image/png"
+            )
 
             filename = save_user_image(wrapped_file, current_user, kind="artwork")
             

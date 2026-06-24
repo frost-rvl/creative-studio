@@ -143,7 +143,7 @@ class App:
                 cell.draw(grid_surf, selected=False)
         # Save to an in-memory BytesIO
         buf = io.BytesIO()
-        pygame.image.save(grid_surf, buf)
+        pygame.image.save(grid_surf, buf, "png")
         buf.seek(0)
         b64 = base64.b64encode(buf.read()).decode('utf-8')
         return b64 

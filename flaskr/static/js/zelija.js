@@ -71,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const b64 = iframe.contentWindow.captureGrid();
       if (b64 && typeof b64 === 'string' && b64.length > 0) {
+        if (b64.startsWith('data:image'))
+          b64 = b64.split(',')[1];
+        if (!/^[A-Za-z0-9+/=]+$/.test(b64))
+          console.warn('Captured string does not look like valid base64 – might be corrupt');
         hiddenInput.value = b64;
         console.log(`Captured grid: ${b64.length} characters`);
       } else {
