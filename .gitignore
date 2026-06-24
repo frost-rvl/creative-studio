@@ -8,3 +8,4 @@ uploads
 .idea
 user_file.txt
 .venv
+studio.db
