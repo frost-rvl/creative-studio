@@ -7,3 +7,4 @@ node_modules
 uploads
 .idea
 user_file.txt
+.venv
