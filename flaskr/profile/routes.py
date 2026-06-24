@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 
 from flaskr import db
 from flaskr.main.forms import EmptyForm
-from flaskr.models import User
+from flaskr.models import User, Artwork, ArtworkType
 from flaskr.profile import bp
 from flaskr.profile.forms import EditProfileForm
 from flaskr.utils import rename_user_folder, save_user_image
@@ -14,8 +14,34 @@ from flaskr.utils import rename_user_folder, save_user_image
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
+    filter_type = request.args.get('type', '')
+    
+    query = sa.select(Artwork).where(
+        (Artwork.user_id == user.id) & (Artwork.is_public == True)
+    )
+    
+    if filter_type:
+        query = query.join(ArtworkType).where(ArtworkType.name == filter_type)
+    
+    query = query.order_by(Artwork.timestamp.desc())
+    artworks = db.session.scalars(query).all()
+    
+    artwork_types = db.session.scalars(
+        sa.select(ArtworkType).join(Artwork).where(
+            (Artwork.user_id == user.id) & (Artwork.is_public == True)
+        ).distinct()
+    ).all()
+    
     form = EmptyForm()
-    return render_template("profile/user.html", title="Profile", user=user, form=form)
+    return render_template(
+        "profile/user.html", 
+        title="Profile", 
+        user=user, 
+        form=form,
+        artworks=artworks,
+        artwork_types=artwork_types,
+        current_filter=filter_type
+    )
 
 
 @bp.route("/edit_profile", methods=["GET", "POST"])
@@ -25,7 +51,7 @@ def edit_profile():
     old_username = current_user.username
     if form.validate_on_submit():
         if form.username.data != old_username:
-            rename_user_folder(old_username, form.username.data)  # type: ignore
+            rename_user_folder(old_username, form.username.data)
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         avatar = form.avatar.data
@@ -66,7 +92,7 @@ def follow(username):
             flash(message=f"User {username} not found.", category="info")
             return redirect(url_for("main.index"))
         if user == current_user:
-            flash(message="You cannont follow yourself", category="warning")
+            flash(message="You cannot follow yourself", category="warning")
             return redirect(url_for("profile.user", username=username))
         current_user.follow(user)
         db.session.commit()

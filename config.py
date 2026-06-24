@@ -12,6 +12,7 @@ class Config:
     UPLOAD_FOLDER = os.path.join(basedir, "uploads")
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024
     ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+    ARTWORK_PER_PAGE = 12
 
     MAIL_SERVER = os.environ.get("MAIL_SERVER")
     MAIL_PORT = int(os.environ.get("MAIL_PORT") or 25)
