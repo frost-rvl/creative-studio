@@ -8,7 +8,8 @@
     "buildcss": "npx tailwindcss -i ./flaskr/static/css/input.css -o ./flaskr/static/css/output.css --watch",
     "flask": "flask run",
     "bs": "npx browser-sync start --config bs-config.js",
-    "dev": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\""
+    "zelija": "pygbag services/zelija",
+    "dev": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\" \"npm run zelija\" "
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,8 @@
     "browser-sync": "^3.0.4",
     "concurrently": "^9.2.1",
     "tailwindcss": "^4.1.18"
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1"
   }
 }

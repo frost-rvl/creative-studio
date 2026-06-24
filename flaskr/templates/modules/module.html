@@ -3,22 +3,19 @@
 <main class="w-full max-w-7xl md:px-16 lg:px-0 mt-16">
     <div class="w-full flex flex-col">
         <div class="flex flex-1 overflow-hidden gap-4 border-gray-200 border rounded-lg">
-            <!-- Renderer (left, ~70%) -->
+            <!-- Renderer (left) -->
             <div class="flex flex-col flex-1 border-r border-gray-200 overflow-hidden">
+                {% if module_name == "zelija" %}
+                <iframe src="{{ url_for('modules.proxy_pygbag', path='') }}" class="w-full h-full border-none"></iframe> {% else %}
                 <div class="flex-1 relative bg-gray-50 flex items-center justify-center overflow-hidden"
                      id="rendererScreen"
                      style="background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px); background-size: 24px 24px;">
-                    <div class="text-center select-none" id="rendererIdle">
-                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-gray-200 shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
-                            </svg>
-                        </div>
-                        <p class="text-sm text-gray-400 font-medium">Renderer ready</p>
-                        <p class="text-xs text-gray-300 mt-1">Start the module to begin</p>
+                    <div>
+                      <p class="text-sm text-gray-400 font-medium">Error while loading {{ module_name }}</p>
                     </div>
                     <span class="absolute bottom-4 right-10 text-xs text-gray-300 font-mono" id="rendererRes"></span>
                 </div>
+                {% endif %}
             </div>
 
             <!-- Sidebar (right) -->
@@ -33,23 +30,26 @@
                     </h1>
                     <p class="text-sm text-gray-400 mt-2 leading-relaxed">Configure your artwork then save or share it with the community.</p>
                 </div>
-                <form method="POST" action="{{ url_for('modules.module', module_name=module_name) }}" class="flex flex-col flex-1 px-6 py-6 gap-5">
+                
+                <form id="artworkForm" method="POST" class="flex flex-col flex-1 px-6 py-6 gap-5">
+                    {{ form.hidden_tag() }}
+                    
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Artwork details</p>
                         <div class="mb-4">
-                            <label for="art_title" class="mb-1 block text-sm font-medium text-gray-700">Title</label>
-                            <input type="text" id="art_title" name="title" placeholder="Untitled artwork" maxlength="256" autocomplete="off"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 placeholder-gray-300"
-                            />
+                            <label for="title" class="mb-1 block text-sm font-medium text-gray-700">Title</label>
+                            {{ form.title(id="title", placeholder="Untitled artwork", maxlength="256", autocomplete="off",
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 placeholder-gray-300") }}
                         </div>
                         <div>
-                            <label for="art_desc" class="mb-1 block text-sm font-medium text-gray-700">Description</label>
-                            <textarea id="art_desc" name="description" placeholder="Describe your work…" rows="4" maxlength="1024"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 placeholder-gray-300 resize-none"
-                            ></textarea>
+                            <label for="description" class="mb-1 block text-sm font-medium text-gray-700">Description</label>
+                            {{ form.description(id="description", placeholder="Describe your work…", rows="4", maxlength="1024",
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 placeholder-gray-300 resize-none") }}
                         </div>
                     </div>
+                    
                     <div class="border-t border-gray-100"></div>
+                    
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Publish</p>
                         <div class="flex flex-col gap-3">
@@ -79,9 +79,10 @@
                         </p>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
 </main>
+
+<script type="module" src="{{ url_for('static', filename='js/zelija.js') }}"></script>
 {% endblock %}

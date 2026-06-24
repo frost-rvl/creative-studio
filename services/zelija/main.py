@@ -1,6 +1,9 @@
 import pygame
 import math
 import asyncio
+import base64
+import io
+from js import window, console
 
 pygame.init()
 
@@ -108,22 +111,42 @@ class Cell:
         )
         self.shape = None
 
-    def draw(self, surf, selected):
+    def draw(self, surf=None, selected=False):
+        if surf is None:
+            surf = screen
         color = (255, 255, 255) if selected else (60, 60, 60)
         pygame.draw.rect(surf, color, self.rect, 3, border_radius=6)
         if self.shape:
             self.shape.draw(surf, self.rect)
 
 
+# GLOBAL APP INSTANCE
+app_instance = None
 
 # ---- APP ----
 class App:
     def __init__(self):
+        global app_instance
+        app_instance = self
         self.cells = [[Cell(r, c) for c in range(GRID_SIZE)] for r in range(GRID_SIZE)]
         self.selected_shape = Circle
         self.selected_color = PALETTE[0]
         self.selected_cell = None
         self.delete_mode = False
+
+    def capture_grid(self):
+        """Render only the grid area to a PNG and return base64 data URL."""
+        # Surface exactly the size of the grid
+        grid_surf = pygame.Surface((GRID_WIDTH, GRID_WIDTH))
+        for row in self.cells:
+            for cell in row:
+                cell.draw(grid_surf, selected=False)
+        # Save to an in-memory BytesIO
+        buf = io.BytesIO()
+        pygame.image.save(grid_surf, buf)
+        buf.seek(0)
+        b64 = base64.b64encode(buf.read()).decode('utf-8')
+        return b64 
 
     def get_counts(self):
         counts = {"Circle":0, "Square":0, "Triangle":0, "Star":0}
@@ -239,7 +262,7 @@ class App:
 
             for row in self.cells:
                 for cell in row:
-                    cell.draw(screen, cell == self.selected_cell)
+                    cell.draw(selected=(cell == self.selected_cell))
 
             self.draw_ui()
             pygame.display.flip()
@@ -251,6 +274,13 @@ class App:
 def draw(text, x, y, color=(220,220,220), big=False):
     font = BIG_FONT if big else FONT
     screen.blit(font.render(text, True, color), (x, y))
+
+def js_capture_grid():
+    if app_instance is None:
+        return ""
+    return app_instance.capture_grid()
+
+window.captureGrid = js_capture_grid
 
 # ---- RUN ----
 asyncio.run(App().run())

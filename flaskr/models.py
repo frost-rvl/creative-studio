@@ -188,7 +188,8 @@ class Artwork(db.Model):
     )
     title: so.Mapped[str] = so.mapped_column(sa.String(256))
     desc: so.Mapped[str | None] = so.mapped_column(sa.String(1024))
-
+    
+    is_public: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=False)
     file_path: so.Mapped[str] = so.mapped_column(sa.String(512))
     mime_type: so.Mapped[str | None] = so.mapped_column(sa.String(100))
     file_size: so.Mapped[str | None] = so.mapped_column(sa.Integer)
