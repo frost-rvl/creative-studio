@@ -8,8 +8,10 @@
     "buildcss": "npx tailwindcss -i ./flaskr/static/css/input.css -o ./flaskr/static/css/output.css --watch",
     "flask": "flask run",
     "bs": "npx browser-sync start --config bs-config.js",
-    "zelija": "pygbag services/zelija",
-    "dev": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\" \"npm run zelija\" "
+    "zelija": ".venv/bin/pygbag --can_close 1 --no_opt --ssl 0 --ume_block 0 services/zelija",
+    "neural_transfer": "services/neural_transfer/.venv/bin/python services/neural_transfer/service.py",
+    "tunnel" : "cloudflared tunnel --url http://localhost:5000",
+    "dev": "npx concurrently \"flask run\" \"npm run buildcss\" \"npm run bs\" \"npm run zelija\" \"npm run neural_transfer\" \"npm run tunnel\" "
   },
   "repository": {
     "type": "git",

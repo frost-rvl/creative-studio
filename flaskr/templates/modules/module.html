@@ -2,11 +2,14 @@
 {% block content %}
 <main class="w-full max-w-7xl md:px-16 lg:px-0 mt-16">
     <div class="w-full flex flex-col">
-        <div class="flex flex-1 overflow-hidden gap-4 border-gray-200 border rounded-lg">
+        <div class="flex flex-1 overflow-hidden gap-4 border-gray-200 border rounded-lg flex-col md:flex-row">
             <!-- Renderer (left) -->
-            <div class="flex flex-col flex-1 border-r border-gray-200 overflow-hidden">
+            <div class="flex flex-col flex-1 border-b md:border-b-0 md:border-r border-gray-200 overflow-hidden min-h-[60vh] md:min-h-0">
                 {% if module_name == "zelija" %}
-                <iframe src="{{ url_for('modules.proxy_pygbag', path='') }}" class="w-full h-full border-none"></iframe> {% else %}
+                    <iframe src="{{ url_for('modules.proxy_pygbag', path='') }}" class="w-full border-none" style="height: 720px;" allow="autoplay; midi; xr-spatial-tracking"></iframe> 
+                {% elif module_name == "neural_transfer" %}
+                    <iframe src="{{ url_for('modules.proxy_style_transfer', path='') }}" class="w-full h-full border-none"></iframe>
+                {% else %}
                 <div class="flex-1 relative bg-gray-50 flex items-center justify-center overflow-hidden"
                      id="rendererScreen"
                      style="background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px); background-size: 24px 24px;">
@@ -19,7 +22,7 @@
             </div>
 
             <!-- Sidebar (right) -->
-            <div class="w-80 flex flex-col bg-white overflow-y-auto">
+            <div class="w-full md:w-80 flex flex-col bg-white overflow-y-auto">
                 <div class="px-6 pt-8 pb-6 border-b border-gray-100">
                     <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-2">Module</p>
                     <h1 class="text-2xl font-bold text-gray-800 leading-tight">
@@ -85,5 +88,7 @@
     </div>
 </main>
 
-<script type="module" src="{{ url_for('static', filename='js/zelija.js') }}"></script>
+{% if module_js %}
+    <script type="module" src="{{ url_for('static', filename='js/' + module_js) }}"></script>
+{% endif %}
 {% endblock %}

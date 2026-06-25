@@ -8,7 +8,7 @@ function b64toBlob(b64, type) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const iframe = document.querySelector('iframe[src^="/pygbag"]');
+  const iframe = document.querySelector('iframe');
   if (!iframe) {
     console.error('No iframe found');
     return;
@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         iframeReady = true;
         console.log('captureGrid is ready');
         return true;
+      } else {
+        console.log("FFFF" + iframe.contentWindow.captureGrid )
       }
     } catch (e) {
       console.warn('Cannot access iframe.contentWindow:', e);
@@ -54,11 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    setTimeout(() => {
-      if (!iframeReady) {
-        console.warn('captureGrid not found after 10s – check Pygbag script');
-      }
-    }, 10000);
+    if (!iframeReady) {
+      console.warn('captureGrid not found after 60s – check Pygbag script');
+    }
+    // setTimeout(() => {
+      
+    // }, 60000);
   }
 
   form.addEventListener('submit', (e) => {

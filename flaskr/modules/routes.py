@@ -13,30 +13,7 @@ import base64
 import traceback
 import os
 from io import BytesIO
-
-class InMemoryFile:
-    def __init__(self, data, filename):
-        self.data = data
-        self.filename = filename
-
-    def save(self, destination):
-        with open(destination, 'wb') as f:
-            f.write(self.data)
-
-    def read(self):
-        return self.data
-
-    def seek(self, offset, whence=0):
-        if whence == 0:
-            self.position = offset
-        elif whence == 1:
-            self.position += offset
-        elif whence == 2:
-            self.position = len(self.data) + offset
-        pass
-
-    def tell(self):
-        return self.position
+import re
 
 @bp.route("/modules")
 @login_required
@@ -71,7 +48,6 @@ def module(module_name):
             filename = save_user_image(wrapped_file, current_user, kind="artwork")
             
             if filename:
-                
                 artwork_type = db.session.scalar(
                     sa.select(ArtworkType).where(ArtworkType.name == module_name)
                 )
@@ -90,27 +66,52 @@ def module(module_name):
                 db.session.commit()
                 
                 flash(message="Artwork saved!", category="success")
-                return redirect(url_for('modules.module', module_name='zelija'))
+                return redirect(url_for('modules.module', module_name=module_name))
         except Exception as e:
             print(f"ERROR: {str(e)}")
             traceback.print_exc()
             flash(message=f"Error saving artwork: {str(e)}", category="error")
     
-    module_ports = {"zelija": 8000}
+    module_ports = {
+        "zelija": 8000,
+        "neural_transfer": 8002
+    }
     module_port = module_ports.get(module_name)
+    module_js = f"{module_name}.js"
     
     return render_template(
         "modules/module.html",
         title="Module",
         module_name=module_name,
         module_port=module_port,
-        form=form
+        form=form,
+        module_js=module_js
     )
 
-@bp.route('/pygbag/', defaults={'path': ''})
-@bp.route('/pygbag/<path:path>')
+@bp.route('/pygbag/', defaults={'path': ''}, methods=["GET", "POST"])
+@bp.route('/pygbag/<path:path>', methods=["GET", "POST"])
 def proxy_pygbag(path):
     url = f'http://localhost:8000/{path}'
+    headers = {k: v for k, v in request.headers if k.lower() != 'host'}
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers=headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        stream=True,
+        allow_redirects=False
+    )
+    return Response(
+        resp.iter_content(chunk_size=1024),
+        status=resp.status_code,
+        headers=dict(resp.headers)
+    )
+
+@bp.route('/style-transfer/', defaults={'path': ''}, methods=["GET", "POST"])
+@bp.route('/style-transfer/<path:path>', methods=["GET", "POST"])
+def proxy_style_transfer(path):
+    url = f'http://localhost:8002/{path}'
     headers = {k: v for k, v in request.headers if k.lower() != 'host'}
     resp = requests.request(
         method=request.method,

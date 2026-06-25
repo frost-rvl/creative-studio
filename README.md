@@ -54,10 +54,10 @@ This will launch flask, tailwindcss(builder) and browser-sync
 - User authentication
 - Email support 
 - User profile page
-
-## Coming son
 - Artwork modules
 - Gallery/Explore/Home pages
+
+## Coming son
 - Full text search
 - Artwork description translator
 - User notifications
