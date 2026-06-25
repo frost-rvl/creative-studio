@@ -7,9 +7,9 @@ from PIL import Image, ImageFilter, ImageOps
 
 
 def pil_to_b64(img: Image.Image, fmt="PNG") -> str:
-    buffer = io.BytesIO()
-    img.save(buffer, format=fmt)
-    return base64.b64encode(buffer.getvalue()).decode("utf-8")
+    buf = io.BytesIO()
+    img.save(buf, format=fmt)
+    return base64.b64encode(buf.getvalue()).decode("utf-8")
 
 
 def load_image(path: str) -> Image.Image:
@@ -80,10 +80,8 @@ def apply_watercolor(img: Image.Image) -> Image.Image:
     for _ in range(3):
         arr = cv2.bilateralFilter(arr, 9, 75, 75)
 
-    gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY)
-
     edges = cv2.adaptiveThreshold(
-        gray,
+        cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY),
         255,
         cv2.ADAPTIVE_THRESH_MEAN_C,
         cv2.THRESH_BINARY,
@@ -101,14 +99,14 @@ def apply_mirror(img: Image.Image) -> Image.Image:
     left = img.crop((0, 0, img.width // 2, img.height))
     right = ImageOps.mirror(left)
 
-    result = Image.new("RGB", img.size)
-    result.paste(left, (0, 0))
-    result.paste(right, (img.width // 2, 0))
+    combined = Image.new("RGB", img.size)
+    combined.paste(left, (0, 0))
+    combined.paste(right, (img.width // 2, 0))
 
-    return result
+    return combined
 
 
-def apply_rotate(img: Image.Image, angle: int = 90) -> Image.Image:
+def apply_rotate(img: Image.Image, angle: int = 45) -> Image.Image:
     return img.rotate(angle, expand=True)
 
 
@@ -142,10 +140,12 @@ EFFECT_META = {
     "sepia": {"label": "Sépia", "icon": "🟤", "category": "colour"},
     "invert": {"label": "Inversion", "icon": "🔄", "category": "colour"},
     "neon": {"label": "Neon", "icon": "💜", "category": "colour"},
+
     "glitch": {"label": "Glitch", "icon": "⚡", "category": "distort"},
     "pixelate": {"label": "Pixelation", "icon": "🟧", "category": "distort"},
     "blur": {"label": "Flou", "icon": "🌀", "category": "distort"},
     "watercolor": {"label": "Aquarelle", "icon": "🎨", "category": "distort"},
+
     "mirror": {"label": "Miroir", "icon": "🪞", "category": "geometric"},
     "rotate": {"label": "Rotation", "icon": "🔁", "category": "geometric"},
     "contour": {"label": "Contours", "icon": "✏️", "category": "geometric"},
@@ -157,7 +157,7 @@ def process_image(path: str, effect: str, **kwargs) -> tuple[Image.Image, str]:
 
     fn = EFFECTS.get(effect)
     if fn is None:
-        raise ValueError(f"Effet inconnu : {effect}")
+        raise ValueError(f"Unknown effect: {effect}")
 
     result = fn(img, **kwargs)
     b64 = pil_to_b64(result)
