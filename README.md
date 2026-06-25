@@ -17,6 +17,8 @@ A collection of creative modules built with Flask and Python. Each module runs a
 - [Running in Development](#running-in-development)
   - [Start everything with one command](#start-everything-with-one-command)
   - [Run services individually](#run-services-individually)
+- [Database Setup](#database-setup)
+- [Running in Production](#running-in-production)
 - [Features](#features)
 - [Coming Soon](#coming-soon)
 - [Contributing](#contributing)
@@ -150,6 +152,7 @@ Download the style reference images (run once):
 ```bash
 cd style_transfer
 python download_styles.py
+deactivate
 cd ../..
 ```
 
@@ -162,6 +165,7 @@ cd services/image_processing
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+deactivate
 cd ../..
 ```
 
@@ -178,6 +182,10 @@ pip install -r requirements.txt
 
 ```bash
 python generate_sample_data.py
+```
+
+```bash
+deactivate
 cd ../..
 ```
 
@@ -196,6 +204,39 @@ This installs:
 - **Tailwind CSS** (for styling)
 - **Browser-sync** (for live reload)
 - **concurrently** (to run multiple processes in parallel)
+
+---
+
+## Database Setup
+
+Make sure your main virtual environment is active before running these commands:
+
+```bash
+source .venv/bin/activate
+```
+
+**First time setup** — initialize the schema and seed the artwork types:
+
+```bash
+flask db upgrade      # run all migrations (creates tables)
+flask seed_db         # seed artwork types (zelija, sablier, aquarium, etc.)
+```
+
+**Reset the database** — drops all tables, recreates them, and re-seeds:
+
+```bash
+flask reset_db
+flask seed_db
+```
+
+**Initialize without migrations** — creates all tables directly from models (use only if you have no migrations yet):
+
+```bash
+flask init_db
+flask seed_db
+```
+
+> **Note:** `seed_db` is safe to run multiple times — it skips artwork types that already exist.
 
 ---
 
@@ -264,6 +305,36 @@ pygbag services/aquarium
 
 ---
 
+## Running in Production
+
+Build the CSS once (no watcher in prod):
+
+```bash
+npx tailwindcss -i ./flaskr/static/css/input.css -o ./flaskr/static/css/output.css
+```
+
+Then start all services with Gunicorn:
+
+```bash
+npm run prod
+```
+
+This launches Gunicorn with 4 workers instead of the Flask dev server. Debug mode is off, auto-reloader is disabled, and error emails are active.
+
+| Service            | Port | Description                     |
+|--------------------|------|---------------------------------|
+| Main app (Gunicorn)| 5000 | 4 workers, no debugger          |
+| Zelija             | 8000 | Pixel art grid builder (Pygbag) |
+| Sablier            | 8001 | Generative hourglass (Pygbag)   |
+| Aquarium           | 8003 | Procedural aquarium (Pygbag)    |
+| Neural Transfer    | 8002 | Style transfer API (Flask)      |
+| Image Processing   | 8004 | Image effects API (Flask)       |
+| Data Visualization | 8005 | Data art API (Flask)            |
+
+> **Note:** For real internet-facing production, put Nginx or Caddy in front of Gunicorn as a reverse proxy to handle HTTPS, static files, and load balancing.
+
+---
+
 ## Features
 
 ### User System
@@ -273,6 +344,7 @@ pygbag services/aquarium
 - Password reset (via email)
 - User profile with avatar and cover images
 - Edit profile (about me, username, email)
+- Following system — see artworks from people you follow
 
 ### Artwork Management
 
@@ -286,7 +358,7 @@ pygbag services/aquarium
 
 | Module             | Description                                                                 | Technology                    |
 |--------------------|-----------------------------------------------------------------------------|-------------------------------|
-| Zelija             | Interactive pixel art grid builder — place shapes, rotate, resize           | Pygbag (Python + Pygame)      |
+| Zelija             | Interactive grid builder — place shapes, rotate, resize           | Pygbag (Python + Pygame)      |
 | Sablier            | Generative hourglass simulation with real-time physics and sand particles   | Pygbag (Python + Pygame)      |
 | Aquarium           | Procedural aquarium with fish, bubbles, animated seaweed, and colour palettes | Pygbag (Python + Pygame)    |
 | Neural Transfer    | Apply artistic styles (Van Gogh, Munch, Picasso) to your photos             | TensorFlow Hub + Flask        |
@@ -303,7 +375,6 @@ Each module is accessible from the Modules page and integrated with the main sav
 - Artwork description translator (using a translation API)
 - User notifications (follows, likes, comments)
 - Comment and like system on public artworks
-- Following system — see artworks from people you follow
 
 ---
 
