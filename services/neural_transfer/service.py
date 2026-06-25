@@ -40,41 +40,143 @@ print("Model loaded.")
 # ── HTML form with JavaScript to expose getStyledImage ──────────────────────
 HTML_FORM = """
 <!DOCTYPE html>
-<html>
-<head><title>Neural Style Transfer</title>
-<style>
-    body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
-    form { background: #f9f9f9; padding: 2rem; border-radius: 8px; }
-    label { display: block; margin-top: 1rem; font-weight: bold; }
-    input, select { margin-top: 0.3rem; }
-    .result { margin-top: 2rem; text-align: center; }
-    .result img { max-width: 100%; max-height: 600px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .error { color: #d32f2f; background: #ffebee; padding: 0.5rem; border-radius: 4px; margin-top: 1rem; }
-    button { margin-top: 1.5rem; background: #e53935; color: white; border: none; padding: 0.7rem 2rem; border-radius: 4px; font-size: 1rem; cursor: pointer; }
-</style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Style Transfer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            color: #1e293b;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 2.5rem; font-weight: 600; color: #0f172a; margin-bottom: 0.5rem; }
+        .sub { color: #64748b; margin-bottom: 2rem; }
+        .panel {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        label { display: block; font-size: 0.85rem; font-weight: 500; color: #475569; margin-bottom: 0.3rem; }
+        input, select {
+            width: 100%;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            color: #1e293b;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: border-color 0.15s;
+        }
+        input:focus, select:focus { outline: none; border-color: #e53e3e; }
+        .btn {
+            background: #e53e3e;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .btn:hover { background: #c53030; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .flex { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+        .mt-2 { margin-top: 1rem; }
+        .result-box {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .result-box img {
+            max-width: 100%;
+            max-height: 600px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .result-box .caption {
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        .error {
+            color: #e53e3e;
+            background: #fee2e2;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .text-muted { color: #94a3b8; font-size: 0.85rem; }
+        .link { color: #e53e3e; text-decoration: none; font-weight: 500; }
+        .link:hover { text-decoration: underline; }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top-color: #e53e3e;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
+<div class="container">
     <h1>Neural Style Transfer</h1>
-    <form method="POST" enctype="multipart/form-data" action="transfer">
-        <label for="content">Upload your image:</label>
-        <input type="file" name="content" accept="image/*" required>
-        <label for="painter">Choose a style:</label>
-        <select name="painter" id="painter">
-            {% for key, name in painters.items() %}
-                <option value="{{ key }}">{{ name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Transform</button>
-    </form>
-    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    <p class="sub">Transform your image using the style of famous painters.</p>
+
+    <div class="panel">
+        <form method="POST" enctype="multipart/form-data" action="transfer">
+            <div style="margin-bottom: 1.5rem;">
+                <label for="content">Upload your image</label>
+                <input type="file" name="content" id="content" accept="image/*" required>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label for="painter">Choose a style</label>
+                <select name="painter" id="painter">
+                    {% for key, name in painters.items() %}
+                        <option value="{{ key }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Transform</button>
+        </form>
+    </div>
+
+    {% if error %}
+        <div class="panel error">{{ error }}</div>
+    {% endif %}
+
     {% if result_data %}
-        <div class="result">
-            <h3>Styled result</h3>
+        <div class="panel result-box">
+            <h3 style="font-weight: 500; margin-bottom: 0.75rem;">Styled result</h3>
             <img src="data:image/jpeg;base64,{{ result_data }}" alt="Styled image">
-            <p><small>Style: {{ painter_display }} · Elapsed: {{ elapsed }}s</small></p>
+            <div class="caption">Style: {{ painter_display }} · Elapsed: {{ elapsed }}s</div>
+        </div>
+        <div style="text-align: center;">
+            <a href="./" class="link">New transformation</a>
+        </div>
+    {% else %}
+        <div class="panel" style="text-align: center; color: #94a3b8;">
+            Upload an image and click "Transform" to see the result here.
         </div>
     {% endif %}
-    <p><a href="./">New transformation</a></p>
 
     <script>
         (function() {
@@ -87,7 +189,15 @@ HTML_FORM = """
             };
             console.log('getStyledImage available');
         })();
+
+        // Optional: loading state
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            this.disabled = true;
+            this.textContent = 'Processing...';
+            this.form.submit();
+        });
     </script>
+</div>
 </body>
 </html>
 """

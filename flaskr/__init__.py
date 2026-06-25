@@ -110,12 +110,7 @@ def _seed_db_impl() -> None:
             "max_file_size": 10 * 1024 * 1024,  # 10MB
         },
         {
-            "name": "audio_manipulation",
-            "allowed_extensions": "mp3,wav,ogg,m4a,flac",
-            "max_file_size": 25 * 1024 * 1024,  # 25MB
-        },
-        {
-            "name": "image_manipulation",
+            "name": "image_processing",
             "allowed_extensions": "jpg,jpeg,png,gif,webp,bmp",
             "max_file_size": 15 * 1024 * 1024,  # 15MB
         },

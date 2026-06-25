@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let iframeReady = false;
 
-  function checkCaptureArt() {
+  function checkGetProcessedImage() {
     try {
-      if (iframe.contentWindow && typeof iframe.contentWindow.captureArt === 'function') {
+      if (iframe.contentWindow && typeof iframe.contentWindow.getProcessedImage === 'function') {
         iframeReady = true;
-        console.log('captureArt is ready');
+        console.log('getProcessedImage is ready');
         return true;
       } else {
-        console.log("captureArt not ready yet");
+        console.log("getProcessedImage not ready yet");
       }
     } catch (e) {
       console.warn('Cannot access iframe.contentWindow:', e);
@@ -29,27 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
     return false;
   }
 
-  if (checkCaptureArt()) {
-    console.log('captureArt already available');
+  if (checkGetProcessedImage()) {
+    console.log('getProcessedImage already available');
   } else {
-    console.log('Waiting for captureArt...');
+    console.log('Waiting for getProcessedImage...');
     const interval = setInterval(() => {
-      if (checkCaptureArt()) {
+      if (checkGetProcessedImage()) {
         clearInterval(interval);
-        console.log('captureArt detected via polling');
+        console.log('getProcessedImage detected via polling');
       }
     }, 200);
 
     iframe.addEventListener('load', () => {
       console.log('Iframe load event fired');
-      if (checkCaptureArt()) {
+      if (checkGetProcessedImage()) {
         clearInterval(interval);
       }
     });
 
     setTimeout(() => {
       if (!iframeReady) {
-        console.warn('captureArt not found after 60s – check Hourglass script');
+        console.warn('getProcessedImage not found after 60s – check service');
       }
     }, 60000);
   }
@@ -61,27 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    e.preventDefault();
+
     try {
-      const b64 = iframe.contentWindow.captureArt();
+      const b64 = iframe.contentWindow.getProcessedImage();
       if (b64 && typeof b64 === 'string' && b64.length > 0) {
-        // Strip data URL prefix if present
-        if (b64.startsWith('data:image')) {
-          b64 = b64.split(',')[1];
-        }
-        // Basic base64 validation
-        if (!/^[A-Za-z0-9+/=]+$/.test(b64)) {
-          console.warn('Captured string does not look like valid base64 – might be corrupt');
-        }
         hiddenInput.value = b64;
-        console.log(`Captured art: ${b64.length} characters`);
+        console.log(`Captured processed image: ${b64.length} characters`);
+        form.submit();
       } else {
-        e.preventDefault();
-        alert('Failed to capture art – returned empty.');
+        alert('No processed image found. Please apply at least one effect first.');
       }
     } catch (err) {
       e.preventDefault();
-      console.error('Error capturing art:', err);
-      alert('Error capturing art: ' + err.message);
+      console.error('Error capturing processed image:', err);
+      alert('Error: ' + err.message);
     }
   });
 });

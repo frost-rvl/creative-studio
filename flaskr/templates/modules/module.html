@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <main class="w-full max-w-7xl md:px-16 lg:px-0 mt-16">
+    <!-- Back button -->
+    <div class="mb-4 px-6 md:px-0">
+        <a href="{{ url_for('modules.modules_grid') }}" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-red-600 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Modules
+        </a>
+    </div>
+
     <div class="w-full flex flex-col">
         <div class="flex flex-1 overflow-hidden gap-4 border-gray-200 border rounded-lg flex-col md:flex-row">
             <!-- Renderer (left) -->
@@ -12,7 +22,11 @@
                 {% elif module_name == "aquarium" %}
                     <iframe src="{{ url_for('modules.proxy_aquarium', path='') }}" class="w-full border-none" style="height: 720px" allow="autoplay; midi; xr-spatial-tracking"></iframe>
                 {% elif module_name == "neural_transfer" %}
-                    <iframe src="{{ url_for('modules.proxy_style_transfer', path='') }}" class="w-full h-full border-none"></iframe>
+                    <iframe src="{{ url_for('modules.proxy_style_transfer', path='') }}" class="w-full border-none" style="height: 720px;"></iframe>
+                {% elif module_name == "image_processing" %}
+                    <iframe src="{{ url_for('modules.proxy_image_processing', path='') }}" class="w-full border-none" style="height: 720px;"></iframe>
+                {% elif module_name == "data_visualization" %}
+                    <iframe src="{{ url_for('modules.proxy_data_viz', path='') }}" class="w-full border-none" style="height: 720px;"></iframe>
                 {% else %}
                 <div class="flex-1 relative bg-gray-50 flex items-center justify-center overflow-hidden"
                      id="rendererScreen"

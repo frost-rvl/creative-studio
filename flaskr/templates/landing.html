@@ -20,7 +20,7 @@
 
     <!-- Modules -->
     <section class="mt-16 flex flex-col items-center">
-        <h2 class="text-3xl font-semibold text-center mx-auto">4 Modules</h2>
+        <h2 class="text-3xl font-semibold text-center mx-auto">6 Modules</h2>
         <p class="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
             Explore creative tools to build, transform, and visualise your ideas.
         </p>
@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </a>
+
             <!-- Neural Transfer -->
             <a href="{{ url_for('modules.module', module_name='neural_transfer') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
                 <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
@@ -51,6 +52,7 @@
                     </div>
                 </div>
             </a>
+
             <!-- Sablier -->
             <a href="{{ url_for('modules.module', module_name='sablier') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
                 <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
@@ -64,6 +66,7 @@
                     </div>
                 </div>
             </a>
+
             <!-- Aquarium -->
             <a href="{{ url_for('modules.module', module_name='aquarium') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
                 <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
@@ -74,6 +77,34 @@
                     <div>
                         <p class="text-xl font-semibold text-slate-800">Aquarium</p>
                         <p class="text-sm text-slate-500 mt-1">Procedural aquarium with fish, bubbles, animated seaweed, and beautiful color palettes.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Image Processing -->
+            <a href="{{ url_for('modules.module', module_name='image_processing') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
+                <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
+                <div class="px-4 py-4 flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600 text-xl font-bold shrink-0">
+                        I
+                    </div>
+                    <div>
+                        <p class="text-xl font-semibold text-slate-800">Image Processing</p>
+                        <p class="text-sm text-slate-500 mt-1">Apply filters, effects, and transformations to your images with a powerful editor.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Data Visualization -->
+            <a href="{{ url_for('modules.module', module_name='data_visualization') }}" class="group rounded-xl shadow-xs border border-gray-100 overflow-hidden cursor-pointer flex flex-col hover:-translate-y-1 transition duration-300 bg-white">
+                <div class="h-2 bg-none w-full group-hover:bg-red-500 transition duration-300"></div>
+                <div class="px-4 py-4 flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600 text-xl font-bold shrink-0">
+                        D
+                    </div>
+                    <div>
+                        <p class="text-xl font-semibold text-slate-800">Data Visualization</p>
+                        <p class="text-sm text-slate-500 mt-1">Upload any CSV dataset and turn it into an expressive, artistic visualization.</p>
                     </div>
                 </div>
             </a>

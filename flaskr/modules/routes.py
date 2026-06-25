@@ -126,7 +126,9 @@ def module(module_name):
         "zelija": 8000,
         "sablier": 8001,
         "neural_transfer": 8002,
-        "aquarium": 8003   # <-- added
+        "aquarium": 8003,
+        "image_processing": 8004,
+        "data_visualization": 8005
     }
     module_port = module_ports.get(module_name)
     module_js = f"{module_name}.js"
@@ -287,4 +289,61 @@ def proxy_style_transfer(path):
         resp.iter_content(chunk_size=1024),
         status=resp.status_code,
         headers=dict(resp.headers)
+    )
+
+@bp.route('/image-processing/', defaults={'path': ''}, methods=["GET", "POST"])
+@bp.route('/image-processing/<path:path>', methods=["GET", "POST"])
+def proxy_image_processing(path):
+    url = f'http://localhost:8004/{path}'
+    headers = {k: v for k, v in request.headers if k.lower() != 'host'}
+
+    if request.headers.get('X-Forwarded-Proto'):
+        headers['X-Forwarded-Proto'] = request.headers['X-Forwarded-Proto']
+    else:
+        headers['X-Forwarded-Proto'] = 'https' if request.is_secure else 'http'
+
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers=headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        stream=True,
+        allow_redirects=False
+    )
+
+    response_headers = {
+        k: v for k, v in resp.headers.items() if k.lower() not in STRIP_HEADERS
+    }
+    return Response(
+        resp.iter_content(chunk_size=8192),
+        status=resp.status_code,
+        headers=response_headers
+    )
+
+@bp.route('/data-viz/', defaults={'path': ''}, methods=["GET", "POST"])
+@bp.route('/data-viz/<path:path>', methods=["GET", "POST"])
+def proxy_data_viz(path):
+    url = f'http://localhost:8005/{path}'
+    headers = {k: v for k, v in request.headers if k.lower() != 'host'}
+    if request.headers.get('X-Forwarded-Proto'):
+        headers['X-Forwarded-Proto'] = request.headers['X-Forwarded-Proto']
+    else:
+        headers['X-Forwarded-Proto'] = 'https' if request.is_secure else 'http'
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers=headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        stream=True,
+        allow_redirects=False
+    )
+    response_headers = {
+        k: v for k, v in resp.headers.items() if k.lower() not in STRIP_HEADERS
+    }
+    return Response(
+        resp.iter_content(chunk_size=8192),
+        status=resp.status_code,
+        headers=response_headers
     )

@@ -1,12 +1,3 @@
-function b64toBlob(b64, type) {
-  const byteString = atob(b64);
-  const bytes = new Uint8Array(byteString.length);
-  for (let i = 0; i < byteString.length; i++) {
-    bytes[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([bytes], { type });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const iframe = document.querySelector('iframe');
   if (!iframe) {
