@@ -95,6 +95,11 @@ def _seed_db_impl() -> None:
             "max_file_size": 20 * 1024 * 1024,  # 20MB
         },
         {
+            "name": "sablier",
+            "allowed_extensions": "jpg,jpeg,png,gif,webp,mp4,webm",
+            "max_file_size": 20 * 1024 * 1024,  # 20MB
+        },
+        {
             "name": "data_visualization",
             "allowed_extensions": "jpg,jpeg,png,svg,pdf,html",
             "max_file_size": 10 * 1024 * 1024,  # 10MB

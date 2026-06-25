@@ -74,6 +74,7 @@ def module(module_name):
     
     module_ports = {
         "zelija": 8000,
+        "sablier": 8001,
         "neural_transfer": 8002
     }
     module_port = module_ports.get(module_name)
@@ -92,6 +93,26 @@ def module(module_name):
 @bp.route('/pygbag/<path:path>', methods=["GET", "POST"])
 def proxy_pygbag(path):
     url = f'http://localhost:8000/{path}'
+    headers = {k: v for k, v in request.headers if k.lower() != 'host'}
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers=headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        stream=True,
+        allow_redirects=False
+    )
+    return Response(
+        resp.iter_content(chunk_size=1024),
+        status=resp.status_code,
+        headers=dict(resp.headers)
+    )
+
+@bp.route('/sablier/', defaults={'path': ''}, methods=["GET", "POST"])
+@bp.route('/sablier/<path:path>', methods=["GET", "POST"])
+def proxy_sablier(path):
+    url = f'http://localhost:8001/{path}'   # use a new port, e.g., 8003
     headers = {k: v for k, v in request.headers if k.lower() != 'host'}
     resp = requests.request(
         method=request.method,

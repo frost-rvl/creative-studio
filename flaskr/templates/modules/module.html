@@ -7,6 +7,8 @@
             <div class="flex flex-col flex-1 border-b md:border-b-0 md:border-r border-gray-200 overflow-hidden min-h-[60vh] md:min-h-0">
                 {% if module_name == "zelija" %}
                     <iframe src="{{ url_for('modules.proxy_pygbag', path='') }}" class="w-full border-none" style="height: 720px;" allow="autoplay; midi; xr-spatial-tracking"></iframe> 
+                {% elif module_name == "sablier" %}
+                    <iframe src="{{ url_for('modules.proxy_sablier', path='') }}" class="w-full h-full border-none"></iframe>
                 {% elif module_name == "neural_transfer" %}
                     <iframe src="{{ url_for('modules.proxy_style_transfer', path='') }}" class="w-full h-full border-none"></iframe>
                 {% else %}
