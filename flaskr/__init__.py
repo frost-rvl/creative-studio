@@ -9,7 +9,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
+from flaskr.template_filters import module_display_name
 from config import Config
 
 db = SQLAlchemy()
@@ -23,6 +23,7 @@ mail = Mail()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.jinja_env.filters['module_display_name'] = module_display_name
 
     db.init_app(app)
     migrate.init_app(app, db)

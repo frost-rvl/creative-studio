@@ -1,22 +1,49 @@
-<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
-    <a href="{{ url_for('main.serve_uploaded_file', filename=artwork.file_path) }}" target="_blank">
+<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-200 group">
+    <!-- Image -->
+    <a href="{{ url_for('main.serve_uploaded_file', filename=artwork.file_path) }}" target="_blank" class="block relative">
         <img src="{{ url_for('main.serve_uploaded_file', filename=artwork.file_path) }}" 
              alt="{{ artwork.title }}" 
-             class="w-full h-48 object-cover">
+             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
     </a>
-    
+
+    <!-- Content -->
     <div class="p-4">
-        <div class="flex items-start justify-between mb-2">
-            <div class="flex-1">
-                <h3 class="font-semibold text-gray-800 truncate">{{ artwork.title }}</h3>
-                <p class="text-xs text-gray-500">by {{ artwork.author.username }}</p>
-            </div>
-        </div>
-        <p class="text-sm text-gray-500 truncate">{{ artwork.desc or 'No description' }}</p>
-        <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-200">
-            <span class="text-xs text-gray-400">{{ artwork.timestamp.strftime('%b %d, %Y') }}</span>
+        <!-- Author row -->
+        <div class="flex items-center gap-2 mb-2">
+            <a href="{{ url_for('profile.user', username=artwork.author.username) }}" class="flex-shrink-0">
+                <img src="{{ artwork.author.avatar }}" alt="{{ artwork.author.username }}" class="w-6 h-6 rounded-full object-cover border border-gray-200">
+            </a>
             <a href="{{ url_for('profile.user', username=artwork.author.username) }}" 
-               class="text-xs text-red-500 hover:text-red-600">View profile</a>
+               class="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors truncate">
+                {{ artwork.author.username }}
+            </a>
+            <span class="text-xs text-gray-400 ml-auto">
+                {{ artwork.timestamp.strftime('%b %d') }}
+            </span>
+        </div>
+
+        <!-- Title -->
+        <h3 class="font-semibold text-gray-800 text-base truncate">{{ artwork.title }}</h3>
+
+        <!-- Description -->
+        <p class="text-sm text-gray-500 line-clamp-2 mt-1">{{ artwork.desc or 'No description' }}</p>
+
+        <!-- Footer: module badge + visibility -->
+        <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-200">
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
+                    {{ artwork.artwork_type.name | module_display_name }}
+                </span>
+                {% if artwork.is_public %}
+                    <span class="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Public</span>
+                {% else %}
+                    <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">Private</span>
+                {% endif %}
+            </div>
+            <a href="{{ url_for('modules.module', module_name=artwork.artwork_type.name) }}" 
+               class="text-xs text-red-500 hover:text-red-600 font-medium transition-colors">
+                View Module →
+            </a>
         </div>
     </div>
 </div>
