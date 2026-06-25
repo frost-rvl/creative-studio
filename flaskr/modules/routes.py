@@ -48,8 +48,10 @@ def rewrite_pygbag_html(body, host, base_path):
     body = body.replace('https://pygame-web.github.io/', public_base + '/')
     body = body.replace('http://localhost:8000/', public_base + '/')
     body = body.replace('http://localhost:8001/', public_base + '/')
+    body = body.replace('http://localhost:8003/', public_base + '/')   # <-- added for aquarium
     body = body.replace('//localhost:8000/', public_base + '/')
     body = body.replace('//localhost:8001/', public_base + '/')
+    body = body.replace('//localhost:8003/', public_base + '/')       # <-- added for aquarium
 
     # Also catch protocol-relative external CDN
     body = body.replace('//pygame-web.github.io/', public_base + '/')
@@ -123,7 +125,8 @@ def module(module_name):
     module_ports = {
         "zelija": 8000,
         "sablier": 8001,
-        "neural_transfer": 8002
+        "neural_transfer": 8002,
+        "aquarium": 8003   # <-- added
     }
     module_port = module_ports.get(module_name)
     module_js = f"{module_name}.js"
@@ -211,7 +214,49 @@ def proxy_sablier(path):
 
     if 'text/html' in content_type:
         body = resp.content.decode('utf-8', errors='replace')
-        body = rewrite_pygbag_html(body, request.host, 'sablier')  # <-- important: base path is "sablier"
+        body = rewrite_pygbag_html(body, request.host, 'sablier')
+        return Response(body, status=resp.status_code, headers=response_headers, content_type='text/html')
+
+    if any(t in content_type for t in ['javascript', 'css', 'json']):
+        return Response(resp.content, status=resp.status_code, headers=response_headers, content_type=content_type)
+
+    return Response(
+        resp.iter_content(chunk_size=8192),
+        status=resp.status_code,
+        headers=response_headers
+    )
+
+
+@bp.route('/aquarium/', defaults={'path': ''}, methods=["GET", "POST"])
+@bp.route('/aquarium/<path:path>', methods=["GET", "POST"])
+def proxy_aquarium(path):
+    url = f'http://localhost:8003/{path}'
+    headers = {k: v for k, v in request.headers if k.lower() != 'host'}
+
+    if request.headers.get('X-Forwarded-Proto'):
+        headers['X-Forwarded-Proto'] = request.headers['X-Forwarded-Proto']
+    else:
+        headers['X-Forwarded-Proto'] = 'https' if request.is_secure else 'http'
+
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers=headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        allow_redirects=False,
+        stream=True
+    )
+
+    content_type = resp.headers.get('Content-Type', '').lower()
+    response_headers = {
+        k: v for k, v in resp.headers.items() if k.lower() not in STRIP_HEADERS
+    }
+    response_headers.update(COOP_COEP)
+
+    if 'text/html' in content_type:
+        body = resp.content.decode('utf-8', errors='replace')
+        body = rewrite_pygbag_html(body, request.host, 'aquarium')
         return Response(body, status=resp.status_code, headers=response_headers, content_type='text/html')
 
     if any(t in content_type for t in ['javascript', 'css', 'json']):

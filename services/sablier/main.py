@@ -255,7 +255,6 @@ class App:
         self.font_label = pygame.font.SysFont("Arial", 16)
         self.font_small = pygame.font.SysFont("Arial", 13)
 
-        # Default settings
         self.duration = 60
         self.grain_count = 300
         self.palette_index = 0
@@ -264,7 +263,6 @@ class App:
         self.hourglass = Hourglass(self.duration, self.grain_count, self.palette)
         self.hourglass.start()
 
-        # UI Buttons
         self.pause_btn = Button((20, 100, SIDEBAR_W - 40, 44), "Pause")
         self.reset_btn = Button((20, 152, SIDEBAR_W - 40, 44), "Réinitialiser")
         self.more_btn = Button((20, 204, 84, 40), "+ Grains")
@@ -272,12 +270,23 @@ class App:
         self.palette_btn = Button((20, 304, SIDEBAR_W - 40, 44), "Changer palette")
 
     def capture_art(self):
-        """Capture only the grains on the UI background color."""
+        """Capture the hourglass shape and grains on the UI background."""
         canvas_surf = pygame.Surface((CANVAS_W, HEIGHT))
-        canvas_surf.fill(BG_DARK)  # same as the app's background
+        canvas_surf.fill(BG_DARK)
         cx = CANVAS_W // 2
 
-        # Draw only the grains
+        # Draw the glass (same as Hourglass.draw)
+        def shift(p):
+            return (p[0] + cx, p[1])
+
+        glass_points = [shift(p) for p in [
+            (-150, 50), (150, 50), (20, 350),
+            (180, 605 + 15), (-180, 605 + 15), (-20, 350)
+        ]]
+        pygame.draw.polygon(canvas_surf, (60, 63, 78), glass_points)
+        pygame.draw.polygon(canvas_surf, (210, 212, 225), glass_points, 3)
+
+        # Draw the grains
         for g in self.hourglass.grains:
             if g.state == "waiting":
                 g.draw_waiting(canvas_surf, cx)
@@ -301,7 +310,6 @@ class App:
             last_t = now
             mouse_pos = pygame.mouse.get_pos()
 
-            # Event handling
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -332,19 +340,15 @@ class App:
                         self.hourglass.palette = self.palette
                         self.hourglass.recolor()
 
-            # Update
             self.hourglass.update(dt)
 
-            # Draw
             self.screen.fill(BG_DARK)
 
-            # Canvas
             canvas_rect = pygame.Rect(SIDEBAR_W, 0, CANVAS_W, HEIGHT)
             canvas = self.screen.subsurface(canvas_rect)
             canvas.fill(BG_DARK)
             self.hourglass.draw(canvas, CANVAS_W // 2)
 
-            # Sidebar
             pygame.draw.rect(self.screen, BG_PANEL, (0, 0, SIDEBAR_W, HEIGHT))
             pygame.draw.line(self.screen, BORDER, (SIDEBAR_W, 0), (SIDEBAR_W, HEIGHT))
 
@@ -353,19 +357,16 @@ class App:
             sub = self.font_small.render("Art génératif interactif", True, TEXT_MUTED)
             self.screen.blit(sub, (20, 52))
 
-            # Buttons
             self.pause_btn.label = "Reprendre" if self.hourglass.paused else "Pause"
             for btn in (self.pause_btn, self.reset_btn, self.more_btn, self.less_btn, self.palette_btn):
                 btn.hover = btn.contains(mouse_pos)
                 btn.draw(self.screen)
 
-            # Stats
             grain_text = self.font_small.render(f"{self.hourglass.grain_count} grains", True, TEXT_MUTED)
             self.screen.blit(grain_text, (20, 260))
             fallen = self.font_small.render(f"{self.hourglass.landed_count()} grains tombés", True, TEXT_MUTED)
             self.screen.blit(fallen, (20, 280))
 
-            # Palette
             pal_title = pygame.font.SysFont("Arial", 16, bold=True).render("Palette actuelle", True, TEXT_BRIGHT)
             self.screen.blit(pal_title, (20, 365))
             pal_name = self.font_small.render(PALETTES[self.palette_index]["name"], True, TEXT_MUTED)
@@ -376,13 +377,7 @@ class App:
             hint = self.font_small.render("Bouton ou C pour changer", True, TEXT_MUTED)
             self.screen.blit(hint, (20, 465))
 
-            # Controls help
-            controls = [
-                "Espace : pause / reprise",
-                "R : réinitialiser",
-                "C : changer palette",
-                "Échap : quitter"
-            ]
+            controls = ["Espace : pause / reprise", "R : réinitialiser", "C : changer palette", "Échap : quitter"]
             y = HEIGHT - 110
             for line in controls:
                 surf = self.font_small.render(line, True, TEXT_MUTED)
