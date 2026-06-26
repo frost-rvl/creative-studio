@@ -129,6 +129,7 @@ Example `.env` file:
 
 ```env
 SECRET_KEY="a-very-secret-key-generated-with-the-command-above"
+DATABASE_URL="your-favorite-database-url"
 MAIL_SERVER="smtp.gmail.com"
 MAIL_PORT=587
 MAIL_USE_TLS=1
