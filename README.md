@@ -104,6 +104,9 @@ A strong, random string used for cryptographic signing (session, tokens). Genera
 python -c "import secrets; print(secrets.token_urlsafe(32))"
 ```
 
+**`DATABASE_URL`**
+A database URL for your favorite database. By default, we use SQLite
+
 **`MAIL_SERVER`**
 The SMTP server for sending emails. For Gmail, use: `smtp.gmail.com` (also works with `smtp.googlemail.com`).
 
