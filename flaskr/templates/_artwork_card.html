@@ -10,7 +10,7 @@
     <div class="p-4">
         <!-- Author row -->
         <div class="flex items-center gap-2 mb-2">
-            <a href="{{ url_for('profile.user', username=artwork.author.username) }}" class="flex-shrink-0">
+            <a href="{{ url_for('profile.user', username=artwork.author.username) }}" class="shrink-0">
                 <img src="{{ artwork.author.avatar }}" alt="{{ artwork.author.username }}" class="w-6 h-6 rounded-full object-cover border border-gray-200">
             </a>
             <a href="{{ url_for('profile.user', username=artwork.author.username) }}" 
