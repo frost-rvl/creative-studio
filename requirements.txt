@@ -23,6 +23,7 @@ opencv-python==4.13.0.92
 opencv-python-headless==4.13.0.92
 packaging==26.2
 pillow==12.2.0
+psycopg2==2.9.12
 pygame==2.6.1
 pygbag==0.9.3
 PyJWT==2.10.1
